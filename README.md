@@ -3,7 +3,7 @@
 My topic is going to be an app where you can reserve a hotel but you'll also be able to review certain hotels.
 My choice for this topic comes from the fact that corona didn't let us go abroad and now it's permitted again. 
 
-## Technische uitwerking
+## Technical elaboration
 For the navigation I'm going to use bottom navigation for the following screens: Home, Map & Reviews.
 All of the data will be stored in a SQLite database.
 On the homescreen the most popular hotels of the region will be showed filtered by the number of stars, but this filter can be changed.
