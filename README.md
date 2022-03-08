@@ -16,4 +16,4 @@ I'm going to take a look at the Facebook app for the bottom navigation because i
 For the map page I'll take inspiration from the BONGO app and from the "Find My" app in iOS.
 
 ## Platform focus
-I'll make the app with a 60% focus on iOS, but if everything goes smoothly I'll make sure the look and feel will be the same on iOS and Android.
+I'll make the app with a focus on iOS.
