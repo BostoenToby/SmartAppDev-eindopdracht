@@ -8,10 +8,24 @@ import Map from './screens/Map';
 import Reviews from './screens/Reviews';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import generic from './styling/generic';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+
+  const getTabBarVisibility = (route: any) => {
+    const routeName = route.state
+      ? route.state.routes[route.state.index].name
+      : '';
+  
+    if (routeName === 'CameraView') {
+      return false;
+    }
+  
+    return true;
+  }
+
   return (
     <NavigationContainer>
       <SafeAreaProvider>
@@ -21,7 +35,7 @@ export default function App() {
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
           ),
-        }} />
+          }}/>
           <Tab.Screen name="Map" component={Map} options={{
           tabBarLabel: 'Maps',
           tabBarIcon: ({ color, size }) => (
