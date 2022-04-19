@@ -14,17 +14,17 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
 
-  const getTabBarVisibility = (route: any) => {
-    const routeName = route.state
-      ? route.state.routes[route.state.index].name
-      : '';
+  // const getTabBarVisibility = (route: any) => {
+  //   const routeName = route.state
+  //     ? route.state.routes[route.state.index].name
+  //     : '';
   
-    if (routeName === 'CameraView') {
-      return false;
-    }
+  //   if (routeName === 'DetailPage') {
+  //     return false;
+  //   }
   
-    return true;
-  }
+  //   return true;
+  // }
 
   return (
     <NavigationContainer>
@@ -34,7 +34,7 @@ export default function App() {
           tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
-          ),
+          )
           }}/>
           <Tab.Screen name="Map" component={Map} options={{
           tabBarLabel: 'Maps',

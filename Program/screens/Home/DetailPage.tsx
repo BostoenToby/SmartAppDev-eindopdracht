@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
-import { Image, Text, View, Dimensions, StyleSheet, FlatList, SafeAreaView, ScrollView } from "react-native";
+import { Image, Text, View, Dimensions, StyleSheet, FlatList, SafeAreaView, ScrollView, Button, Alert, Pressable } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import ReviewCard from "../../components/ReviewCard";
 import Hotel from "../../interfaces/Hotel";
 import Review from "../../interfaces/Review";
 import map from "../../styling/map";
 import { getData } from "./Overview";
+import { useNavigation, ParamListBase } from '@react-navigation/native';
+import { StackNavigationProp } from "@react-navigation/stack";
 
 export default function DetailPage ({ route }: { route: any }){
     const Hotel = route.params.hotel
+    const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
     // const testReviews: Review[] = [
     //     {
     //         author: 'John Peters',
@@ -51,6 +54,14 @@ export default function DetailPage ({ route }: { route: any }){
                     </MapView>
                     <FlatList data={reviews} renderItem={renderReview}/>
                 </ScrollView>
+                <View style={{}}>
+                    <Pressable onPress={() => {navigation.goBack()}}>
+                        <Text>Return</Text>
+                    </Pressable>
+                    <Pressable onPress={() => {navigation("")}}>
+                        <Text>Next</Text>
+                    </Pressable>
+                </View>
         </SafeAreaView>
     )
 }

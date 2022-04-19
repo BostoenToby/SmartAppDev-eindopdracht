@@ -3,6 +3,7 @@ import HotelCard from "../../components/HotelCard"
 import Hotel from "../../interfaces/Hotel"
 import DetailPage from "./DetailPage";
 import OverView from "./Overview";
+import RoomTypePage from "./RoomTypePage";
 
 export default () => {
     const Stack = createStackNavigator();
@@ -47,6 +48,7 @@ export default () => {
         <Stack.Navigator screenOptions={screenOptions}>
             <Stack.Screen name="OverView" component={OverView} />
             <Stack.Screen name="DetailPage" component={DetailPage} />
+            <Stack.Screen name="RoomTypePage" component={RoomTypePage} />
         </Stack.Navigator>
     )
 }
