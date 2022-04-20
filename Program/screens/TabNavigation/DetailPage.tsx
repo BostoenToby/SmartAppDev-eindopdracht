@@ -11,6 +11,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 
 export default function DetailPage ({ route }: { route: any }){
     const Hotel = route.params.hotel
+    const {navigate} = useNavigation<StackNavigationProp<ParamListBase>>();
     const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
     // const testReviews: Review[] = [
     //     {
@@ -54,13 +55,15 @@ export default function DetailPage ({ route }: { route: any }){
                     </MapView>
                     <FlatList data={reviews} renderItem={renderReview}/>
                 </ScrollView>
-                <View style={{}}>
-                    <Pressable onPress={() => {navigation.goBack()}}>
-                        <Text>Return</Text>
-                    </Pressable>
-                    <Pressable onPress={() => {navigation("")}}>
-                        <Text>Next</Text>
-                    </Pressable>
+                <View style={{position:'absolute', bottom:0, left:0, width: Dimensions.get('window').width, height:20, backgroundColor:'#FFFFFF', paddingHorizontal:12}}>
+                    <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
+                        <Pressable onPress={() => {navigation.goBack()}}>
+                            <Text>Return</Text>
+                        </Pressable>
+                        <Pressable onPress={() => {navigate("RoomTypePage")}}>
+                            <Text>Next</Text>
+                        </Pressable>
+                    </View>
                 </View>
         </SafeAreaView>
     )

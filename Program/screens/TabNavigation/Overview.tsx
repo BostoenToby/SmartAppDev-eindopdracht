@@ -43,6 +43,7 @@ export default function OverView(){
 
     // const test: Hotel[] = getData('http://0.0.0.0:3000/hotels')
     const getHotels = async() => {
+        // const hotels = await getData("http://172.30.19.16:3000/hotels")
         const hotels = await getData("http://192.168.0.151:3000/hotels")
         console.log(hotels);
         setHotels(hotels);

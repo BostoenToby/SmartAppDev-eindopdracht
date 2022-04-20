@@ -21,7 +21,7 @@ export default ({ hotel }: { hotel: Hotel}) => {
             {/* <Pressable title="See details" onPress={() => }/> */}
             <View style={{flexDirection:"column", justifyContent:"space-between", alignItems:"center"}}>
                 <Pressable style={{width: 80, height: 35, borderRadius: 20, backgroundColor: "#0084ff", justifyContent: "center", alignItems: "center"}} onPress={() => {
-                    navigate("DetailPage", {hotel: hotel, navigation: navigate});
+                    navigate("DetailPage", {hotel: hotel});
                 }}>
                     <Text style={{color:"#FFFFFF"}}>See details</Text>
                 </Pressable>
