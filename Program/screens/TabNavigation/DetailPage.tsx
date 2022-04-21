@@ -8,8 +8,9 @@ import map from "../../styling/map";
 import { getData } from "./Overview";
 import { useNavigation, ParamListBase } from '@react-navigation/native';
 import { StackNavigationProp } from "@react-navigation/stack";
+import { GenericButton } from "../../components/GenericButton";
 
-export default function DetailPage ({ route }: { route: any }){
+export default function DetailPage ({ route }: { route: any}){
     const Hotel = route.params.hotel
     const {navigate} = useNavigation<StackNavigationProp<ParamListBase>>();
     const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
@@ -53,16 +54,32 @@ export default function DetailPage ({ route }: { route: any }){
                     }}>
                         <Marker coordinate={{latitude: Hotel.latitude, longitude: Hotel.longitude}} title={"Howest"} description={"This is a test!"}/>
                     </MapView>
-                    <FlatList data={reviews} renderItem={renderReview}/>
+                    <Text style={{fontSize:24, fontWeight:"600", marginHorizontal:Dimensions.get('window').width/20}}>Rating & reviews</Text>
+                    <View style={{flexDirection: 'row', marginHorizontal:Dimensions.get('window').width/20, justifyContent:"space-between"}}>
+                        <Text style={{fontSize: 32, fontWeight: 'bold'}}>{Hotel.rating}⭐</Text>
+                        <View style={{flexDirection: 'row'}}>
+                            <View style={{}}>
+                                <Text style={{fontSize:8}}>⭐⭐⭐⭐⭐</Text>
+                                <Text style={{fontSize:8}}>⭐⭐⭐⭐</Text>
+                                <Text style={{fontSize:8}}>⭐⭐⭐</Text>
+                                <Text style={{fontSize:8}}>⭐⭐</Text>
+                                <Text style={{fontSize:8}}>⭐</Text>
+                            </View>
+                            <View>
+                                <View style={{width: 100, height: 8, backgroundColor:'#D3D3D3', borderRadius: 5, marginBottom: 2}}/>
+                                <View style={{width: 100, height: 8, backgroundColor:'#D3D3D3', borderRadius: 5, marginBottom: 2}}/>
+                                <View style={{width: 100, height: 8, backgroundColor:'#D3D3D3', borderRadius: 5, marginBottom: 2}}/>
+                                <View style={{width: 100, height: 8, backgroundColor:'#D3D3D3', borderRadius: 5, marginBottom: 2}}/>
+                                <View style={{width: 100, height: 8, backgroundColor:'#D3D3D3', borderRadius: 5}}/>
+                            </View>
+                        </View>
+                    </View>
+                    <FlatList style={{marginBottom: 80}} data={reviews} renderItem={renderReview}/>
                 </ScrollView>
-                <View style={{position:'absolute', bottom:0, left:0, width: Dimensions.get('window').width, height:20, backgroundColor:'#FFFFFF', paddingHorizontal:12}}>
-                    <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
-                        <Pressable onPress={() => {navigation.goBack()}}>
-                            <Text>Return</Text>
-                        </Pressable>
-                        <Pressable onPress={() => {navigate("RoomTypePage")}}>
-                            <Text>Next</Text>
-                        </Pressable>
+                <View style={{position:'absolute', bottom:0, left:0, width: Dimensions.get('window').width, height:80, backgroundColor:'#FFFFFF', paddingHorizontal:20, borderTopWidth:1, borderColor:"#D3D3D3"}}>
+                    <View style={{flexDirection:'row', justifyContent: 'space-between', paddingTop: 22.5}}>
+                        <GenericButton text="Return" callback={() => navigation.goBack()} />
+                        <GenericButton text="Next" callback={() => navigate("RoomTypePage", {Hotel: Hotel})} />
                     </View>
                 </View>
         </SafeAreaView>

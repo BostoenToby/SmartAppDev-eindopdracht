@@ -1,4 +1,6 @@
+import Reservation from "./Reservation";
 import Review from "./Review";
+import RoomType from "./RoomType";
 
 export default interface Hotel {
     id?: string,
@@ -15,4 +17,6 @@ export default interface Hotel {
     pricePerNightMax: number,
     rating: number,
     reviews?: Review[],
+    roomtypes: RoomType[],
+    reservations: Reservation[]
 }

@@ -12,8 +12,21 @@ import { createStackNavigator, StackNavigationOptions } from '@react-navigation/
 import TabNavigation from './screens/TabNavigation';
 import DetailPage from './screens/TabNavigation/DetailPage';
 import RoomTypePage from './screens/TabNavigation/RoomTypePage';
+import StackNavigation from './screens/TabNavigation';
+import ReservationPage from './screens/TabNavigation/ReservationPage';
+import { SQLResultSet, SQLTransaction } from 'expo-sqlite';
+import { statement, transaction } from './utils/db';
 
 export default function App() {
+
+  const generateAppTable = async(): Promise<void> => {
+    const tx: SQLTransaction = await transaction();
+    const response: SQLResultSet | void = await statement(
+      tx, 
+      'CREATE TABLE IF NOT EXISTS reservation (id integer primary key autoincrement, hotelName text, roomTypeName text, incheckDate datetime, outcheckDate datetime, price float, firstName text, lastName text, mail text)', 
+    ).catch((err) => console.log(err))
+  }
+
   const Stack = createStackNavigator();
 
   const screenOptions: StackNavigationOptions = {
@@ -24,9 +37,10 @@ export default function App() {
     <NavigationContainer>
       <SafeAreaProvider>
       <Stack.Navigator screenOptions={screenOptions}>
-            <Stack.Screen name="OverView" component={TabNavigation} />
+            <Stack.Screen name="OverView" component={StackNavigation} />
             <Stack.Screen name="DetailPage" component={DetailPage} />
             <Stack.Screen name="RoomTypePage" component={RoomTypePage} />
+            <Stack.Screen name="ReservationPage" component={ReservationPage} />
         </Stack.Navigator>
       </SafeAreaProvider>
     </NavigationContainer>

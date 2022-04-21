@@ -1,5 +1,6 @@
 import Hotel from "./Hotel";
 import Review from "./Review";
+import RoomType from "./RoomType"
 
 export default interface Reservation {
     id?: string,
@@ -8,8 +9,8 @@ export default interface Reservation {
     birthDate: Date,
     email: string,
     hotel: Hotel,
-    numberOfRooms: number,
     dateOfReservation: Date,
     review?: Review,
     totalPrice: number,
+    roomType: RoomType
 }

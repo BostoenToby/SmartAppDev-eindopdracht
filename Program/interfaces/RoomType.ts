@@ -8,5 +8,6 @@ export default interface RoomType {
     airco: boolean,
     wifi: boolean,
     view: boolean,
-    priceStandard: number,
+    price: number,
+    hotelName: string
 }
