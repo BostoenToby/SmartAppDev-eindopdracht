@@ -16,6 +16,7 @@ import StackNavigation from './screens/TabNavigation';
 import ReservationPage from './screens/TabNavigation/ReservationPage';
 import { SQLResultSet, SQLTransaction } from 'expo-sqlite';
 import { statement, transaction } from './utils/db';
+import { useEffect } from 'react';
 
 export default function App() {
 
@@ -23,11 +24,15 @@ export default function App() {
     const tx: SQLTransaction = await transaction();
     const response: SQLResultSet | void = await statement(
       tx, 
-      'CREATE TABLE IF NOT EXISTS reservation (id integer primary key autoincrement, hotelName text, roomTypeName text, incheckDate datetime, outcheckDate datetime, price float, firstName text, lastName text, mail text)', 
+      'CREATE TABLE IF NOT EXISTS reservation2 (id TEXT PRIMARY KEY, hotelName text, roomTypeName text, incheckDate string, outcheckDate string, price float, firstName text, lastName text, mail text)', 
     ).catch((err) => console.log(err))
   }
 
   const Stack = createStackNavigator();
+
+  useEffect(() => {
+    generateAppTable()
+  }, [])
 
   const screenOptions: StackNavigationOptions = {
     headerShown: false,

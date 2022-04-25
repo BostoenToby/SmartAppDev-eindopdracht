@@ -10,40 +10,7 @@ import Map from "../Map";
 import Reviews from "../Reviews";
 
 export default () => {
-
     const Tab = createBottomTabNavigator();
-    // const testHotels: Hotel[] = [
-    // {
-    //     name: 'Ibis hotel',
-    //     city: 'Kortrijk',
-    //     address: 'Kortrijkstraat 123',
-    //     province: 'West Vlaanderen',
-    //     description: 'Een veel te duur hotel in Kortrijk',
-    //     starRating: 4,
-    //     longitude: 2.43534,
-    //     latitude: 5.23664,
-    //     pricePerNightMin: 40.56,
-    //     pricePerNightMax: 500.98,
-    //     rating: 7.5,
-    // },
-    // {
-    //     name: 'Parkhotel',
-    //     city: 'Kortrijk',
-    //     address: 'Kortrijkstraat 321',
-    //     province: 'West Vlaanderen',
-    //     description: 'Een veel te duur hotel in Kortrijk aan het station',
-    //     starRating: 3,
-    //     longitude: 3.55634,
-    //     latitude: 7.65462,
-    //     pricePerNightMin: 35.88,
-    //     pricePerNightMax: 798.00,
-    //     rating: 9.8
-    // }
-    // ]
-
-    const renderHotel = ({ item }: { item: Hotel }) => (
-        <HotelCard hotel={item}/>
-    )
 
     return (
         <Tab.Navigator screenOptions={{tabBarStyle: {position: 'relative', backgroundColor: '#FFFFFF'}, tabBarActiveTintColor: '#0084ff',}}>

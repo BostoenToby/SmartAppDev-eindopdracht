@@ -7,9 +7,28 @@ import { GenericButton } from "./GenericButton";
 import RoomType from "../interfaces/RoomType";
 import { MaterialCommunityIcons, MaterialIcons, Entypo, AntDesign, SimpleLineIcons } from '@expo/vector-icons';
 import ReservationPage from "../screens/TabNavigation/ReservationPage"
+import { SQLResultSet, SQLTransaction } from "expo-sqlite";
+import { statement, transaction } from "../utils/db";
+import { useState } from "react";
 
-export default ({ roomType }: { roomType: RoomType }) => {
+export default ({ id, roomType }: { id: string, roomType: RoomType }) => {
     const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>();
+    // console.log({route})
+    // console.log(roomType)
+    console.log(id)
+
+    // const [roomType] = useState<RoomType>(route.params.roomType)
+
+    const putReservationDb = async() => {
+        let inserted: boolean = false
+        const tx: SQLTransaction = await transaction()
+        const res: SQLResultSet = await statement(tx, 'UPDATE reservation2 SET roomTypeName = (?), price = (?) WHERE id=(?)', [roomType.name, roomType.price, id])
+        inserted = res.rowsAffected === 1
+        if(inserted) navigate("ReservationPage", {id: id});
+        // TODO: get Id from insert statement --> if we return from the next page --> remove the reservation with id == Id
+        // TODO: in further pages we need to update this reservation with roomTypeName, ... until we get to the last step of the reservation
+    }
+
     return(
         <View style={{flexDirection: "row", height: 120, width:"auto", marginVertical: 5, paddingHorizontal: 5, borderRadius: 5, backgroundColor:"#FFFFFF", justifyContent:"space-between", alignItems: "center", marginHorizontal: 12}}>
             <Image style={{height: 100, width: 100, borderRadius:5}} source={{uri: "https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg"}}/>
@@ -39,8 +58,7 @@ export default ({ roomType }: { roomType: RoomType }) => {
             </View>
             <View style={{flexDirection:"column", justifyContent:"space-between", alignItems:"center"}}>
                 <Pressable style={{width: 80, height: 35, borderRadius: 20, backgroundColor: "#0084ff", justifyContent: "center", alignItems: "center"}} onPress={() => {
-                    console.log({roomType})
-                    navigate("ReservationPage", {roomType: roomType});
+                    putReservationDb()
                 }}>
                     <Text style={{color:"#FFFFFF"}}>See details</Text>
                 </Pressable>
