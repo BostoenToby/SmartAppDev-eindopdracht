@@ -12,14 +12,14 @@ import { GenericButton } from "../../components/GenericButton";
 import { SQLResultSet, SQLTransaction } from "expo-sqlite";
 import { statement, transaction } from "../../utils/db";
 
-export default function DetailPage ({ route, navigation }: { route: any, navigation: any}){
+export default function DetailPage ({ route }: { route: any }){
     const [hotel] = useState<Hotel>(route.params.hotel)
-    const {navigate} = useNavigation<StackNavigationProp<ParamListBase>>();
+    const {navigate, navigation, goBack} = useNavigation<StackNavigationProp<ParamListBase>>();
 
     const deleteReservation = async() => {
         const tx: SQLTransaction = await transaction()
         const res: SQLResultSet = await statement(tx, 'DELETE FROM reservation2 WHERE id = (?)', [route.params.id])
-        navigation.goBack()
+        goBack()
     }
 
     const getReservations = async() => {
@@ -76,7 +76,8 @@ export default function DetailPage ({ route, navigation }: { route: any, navigat
                             </View>
                         </View>
                     </View>
-                    <FlatList style={{marginBottom: 80}} data={reviews} renderItem={renderReview}/>
+                    <FlatList style={{marginBottom: 80}} data={reviews} scrollEnabled={false} renderItem={renderReview}/>
+                    {/* map function */}
                 </ScrollView>
                 <View style={{position:'absolute', bottom:0, left:0, width: Dimensions.get('window').width, height:80, backgroundColor:'#FFFFFF', paddingHorizontal:20, borderTopWidth:1, borderColor:"#D3D3D3"}}>
                     <View style={{flexDirection:'row', justifyContent: 'space-between', paddingTop: 22.5}}>

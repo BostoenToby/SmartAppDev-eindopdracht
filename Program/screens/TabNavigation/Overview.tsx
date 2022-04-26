@@ -15,7 +15,7 @@ export default function OverView(){
     const [hotels, setHotels] = useState<any>()
 
     const getHotels = async() => {
-        const hotels = await getData("http://172.30.19.15:3000/hotels")
+        const hotels = await getData("http://172.30.19.43:3000/hotels")
         setHotels(hotels);
     }
 

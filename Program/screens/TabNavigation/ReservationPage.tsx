@@ -15,15 +15,11 @@ export default function ReservationPage({route}: {route: any }){
     const [lastName, setLastName] = useState<string>();
     const [mail, setMail] = useState<string>();
 
-    const getReservations = async() => {
-        const tx: SQLTransaction = await transaction()
-        const res: SQLResultSet = await statement(tx, "SELECT * FROM reservation2")
-    }
-
     const getReservationId = async() => {
         const tx: SQLTransaction = await transaction()
         const res: SQLResultSet = await statement(tx, "SELECT * FROM reservation2 WHERE id=(?)", [route.params.id])
         setReservation(res.rows._array[0])
+        console.log(res.rows._array[0])
     }
 
     const putReservationDb = async() => {
@@ -31,6 +27,10 @@ export default function ReservationPage({route}: {route: any }){
         const res: SQLResultSet = await statement(tx, "UPDATE reservation2 SET firstName=(?) , lastName=(?) , mail=(?)", [firstName, lastName, mail])
         getReservationId()
     }
+
+    useEffect(() => {
+        getReservationId()
+    }, [])
 
     return(
         <SafeAreaView style={{marginHorizontal:Dimensions.get("window").width/20}}>
