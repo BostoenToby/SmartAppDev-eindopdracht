@@ -3,7 +3,7 @@ import Hotel from "../interfaces/Hotel"
 import { Feather } from '@expo/vector-icons'; 
 import { useNavigation, ParamListBase } from '@react-navigation/native';
 import { createStackNavigator, StackNavigationProp } from "@react-navigation/stack"
-import { GenericButton } from "./GenericButton";
+import {GenericButton} from "./GenericButton";
 import { SQLResultSet, SQLTransaction } from "expo-sqlite";
 import { statement, transaction } from "../utils/db";
 import uuid from 'react-native-uuid';

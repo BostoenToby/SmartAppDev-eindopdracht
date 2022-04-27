@@ -1,6 +1,6 @@
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useEffect, useState } from "react";
-import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, Pressable, StyleSheet, Text, View } from "react-native";
 import MapView from 'react-native-maps';
 import { Marker, Callout } from 'react-native-maps';
 import Coordinates from "../interfaces/Coordinates";
@@ -31,7 +31,10 @@ export default function Map () {
                 {hotels?.map((val, index) => {
                     return(<Marker coordinate={{latitude: val.latitude, longitude: val.longitude}} title={val.name} description={val.description} onCalloutPress={() => {getParent()?.navigate("DetailPage", {hotel: hotels[index]})}}>
                             <Callout>
-                               <Text>{val.name}</Text> 
+                                <View style={{padding: 5}}>
+                                <Text style={{}}>{val.name}</Text>
+                                   <Text>{val.description}</Text>
+                               </View>
                             </Callout>
                         </Marker>)
                 })}

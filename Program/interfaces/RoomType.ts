@@ -1,5 +1,5 @@
 export default interface RoomType {
-    id?: string,
+    id: string,
     name: string,
     numberOfBeds: number,
     squareMeters: number,

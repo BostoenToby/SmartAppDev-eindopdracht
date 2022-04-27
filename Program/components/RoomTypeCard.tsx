@@ -3,7 +3,7 @@ import Hotel from "../interfaces/Hotel"
 import { Feather } from '@expo/vector-icons'; 
 import { useNavigation, ParamListBase } from '@react-navigation/native';
 import { createStackNavigator, StackNavigationProp } from "@react-navigation/stack"
-import { GenericButton } from "./GenericButton";
+import {GenericButton} from "./GenericButton";
 import RoomType from "../interfaces/RoomType";
 import { MaterialCommunityIcons, MaterialIcons, Entypo, AntDesign, SimpleLineIcons } from '@expo/vector-icons';
 import ReservationPage from "../screens/TabNavigation/ReservationPage"
@@ -13,9 +13,6 @@ import { useState } from "react";
 
 export default ({ id, roomType }: { id: string, roomType: RoomType }) => {
     const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>();
-    // console.log({route})
-    // console.log(roomType)
-    console.log(id)
 
     // const [roomType] = useState<RoomType>(route.params.roomType)
 
