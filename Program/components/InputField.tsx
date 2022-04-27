@@ -17,3 +17,21 @@ export const InputFieldSmall = ({label, placeholder, callback}: {label: string, 
         </View>
     )
 }
+
+export const InputFieldSmallHorizontal = ({label, placeholder, callback}: {label: string, placeholder:string, callback: any}) => {
+    return(
+        <View style={{flexDirection:"row", alignItems:"center"}}>
+            <Text style={{paddingRight: 8}}>{label}</Text>
+            <TextInput style={{height: 20, width: Dimensions.get("window").width/20*7 ,borderWidth: 1, borderColor: "#D3D3D3", borderRadius: 5}} placeholder={placeholder} onChangeText={callback}/>
+        </View>
+    )
+}
+
+export const InputFieldXS = ({label, placeholder, callback}: {label: string, placeholder:string, callback: any}) => {
+    return(
+        <View style={{flexDirection:"row", alignItems:"center"}}>
+            <Text style={{paddingRight: 8}}>{label}</Text>
+            <TextInput style={{height: 20, width: Dimensions.get("window").width/10 ,borderWidth: 1, borderColor: "#D3D3D3", borderRadius: 5}} placeholder={placeholder} onChangeText={callback}/>
+        </View>
+    )
+}

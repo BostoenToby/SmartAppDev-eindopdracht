@@ -3,7 +3,7 @@ import { FlatList, Platform, SafeAreaView, Text, TextInput, View, Modal, Pressab
 import RoomTypeCard from "../../components/RoomTypeCard"
 import RoomType from "../../interfaces/RoomType"
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Entypo, AntDesign  } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 import modal from "../../styling/modal";
 import { GenericButton } from "../../components/GenericButton";
 import { SQLResultSet, SQLTransaction } from "expo-sqlite";
@@ -11,8 +11,8 @@ import { statement, transaction } from "../../utils/db";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation, ParamListBase } from '@react-navigation/native';
 import generic from "../../styling/generic";
-import ModalCard from "../../components/ModalCard";
 import BottomBarHalf from "../../components/BottomBarHalf";
+import ModalCardDateTime from "../../components/ModalCardDateTime";
 
 export default ({route}: {route: any}) => {
     const {goBack} = useNavigation<StackNavigationProp<ParamListBase>>();
@@ -48,10 +48,16 @@ export default ({route}: {route: any}) => {
 
     return(
         <SafeAreaView style={generic.fullScreen}>
-            <TextInput style={generic.textInput} placeholder="search for a room type"/>
+            <View>
+                <TextInput style={generic.textInput} placeholder="search for a room type"/>
+                <Pressable>
+                    <Entypo name="menu" size={24} color="black" />
+                </Pressable>    
+            </View>
+
                 <View style={[modal.modalContainer, generic.row, generic.spaceBetween]}>
-                    <ModalCard visible={modalVisibleInCheck} date={incheckDate} onChange={onChangeInCheck} buttonModalCallback={()=>setModalVisibleInCheck(false)} buttonCallback={() => setModalVisibleInCheck(true)}/>
-                    <ModalCard visible={modalVisibleOutCheck} date={outcheckDate} onChange={onChangeOutCheck} buttonModalCallback={()=>setModalVisibleOutCheck(false)} buttonCallback={() => setModalVisibleOutCheck(true)}/>
+                    <ModalCardDateTime visible={modalVisibleInCheck} date={incheckDate} onChange={onChangeInCheck} buttonModalCallback={()=>setModalVisibleInCheck(false)} buttonCallback={() => setModalVisibleInCheck(true)}/>
+                    <ModalCardDateTime visible={modalVisibleOutCheck} date={outcheckDate} onChange={onChangeOutCheck} buttonModalCallback={()=>setModalVisibleOutCheck(false)} buttonCallback={() => setModalVisibleOutCheck(true)}/>
                 </View>
             <FlatList data={roomTypes} renderItem={renderRoomType}/>
             <BottomBarHalf returnTitle="Return" returnCallback={() => goBack()}/>

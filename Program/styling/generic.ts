@@ -10,7 +10,7 @@ export default StyleSheet.create({
         height: Dimensions.get("window").height
     },
     textInput: {
-        width: '95%', 
+        width: '84%', 
         backgroundColor: '#FFFFFF', 
         borderRadius: 5, 
         height: 30,

@@ -24,9 +24,7 @@ export default ({visible, date, onChange, buttonModalCallback, buttonCallback}: 
                             is24Hour={true}
                             onChange={(event: any, date: Date|undefined) => onChange(event, date)}
                         />
-                        <View style={generic.row}>
-                            <GenericButton text="Save" callback={() => buttonModalCallback()}/>
-                        </View>
+                        <GenericButton text="Save" callback={() => buttonModalCallback()}/>
                     </View>
                 </View>
             </Modal>
