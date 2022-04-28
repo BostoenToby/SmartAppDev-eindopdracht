@@ -12,11 +12,18 @@ export default StyleSheet.create({
         width: Dimensions.get('window').width - 50,
         padding: 40,
         justifyContent: 'space-around',
-        alignItems: 'center',
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#FFFFFF'
+    },
+    modalBoxDateTime: {
+        height: Dimensions.get('window').height/2,
+        width: Dimensions.get('window').width - 50,
+        padding: 20,
+        alignItems:'center',
+        justifyContent:'center',
+        backgroundColor: '#FFFFFF'
     },
     modalContainer: {
-        marginHorizontal: 10
+        marginHorizontal: 12.5
     },
     modalDateTime: {
         height: 200, 
@@ -29,5 +36,10 @@ export default StyleSheet.create({
         backgroundColor: "#0084ff", 
         justifyContent: "center", 
         alignItems: "center"
+    },
+    modalTitle: {
+        fontSize: 20, 
+        justifyContent: 'center',
+        fontWeight: 'bold'
     }
 })

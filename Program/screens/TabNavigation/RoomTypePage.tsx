@@ -3,7 +3,6 @@ import { FlatList, Platform, SafeAreaView, Text, TextInput, View, Modal, Pressab
 import RoomTypeCard from "../../components/RoomTypeCard"
 import RoomType from "../../interfaces/RoomType"
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Entypo } from '@expo/vector-icons';
 import modal from "../../styling/modal";
 import { GenericButton } from "../../components/GenericButton";
 import { SQLResultSet, SQLTransaction } from "expo-sqlite";
@@ -13,11 +12,13 @@ import { useNavigation, ParamListBase } from '@react-navigation/native';
 import generic from "../../styling/generic";
 import BottomBarHalf from "../../components/BottomBarHalf";
 import ModalCardDateTime from "../../components/ModalCardDateTime";
+import { Entypo, FontAwesome } from '@expo/vector-icons';
 
 export default ({route}: {route: any}) => {
     const {goBack} = useNavigation<StackNavigationProp<ParamListBase>>();
 
     const [roomTypes, setRoomTypes] = useState<RoomType[]>(route.params.Hotel.roomTypes)
+    const [namePiece, setNamePiece] = useState<string>()
     const [incheckDate, setIncheckDate] = useState<Date>(new Date(Date.now()))
     const [outcheckDate, setOutCheckDate] = useState<Date>(new Date(Date.now()))
     const [modalVisibleInCheck, setModalVisibleInCheck] = useState<boolean>(false)
@@ -26,6 +27,20 @@ export default ({route}: {route: any}) => {
     const renderRoomType = ({ item }: { item: RoomType }) => (
         <RoomTypeCard key={item.id} roomType={item} id={route.params.id} />
     )
+
+    const applyFilters = () => {
+        let roomTypesFound: RoomType[] = []
+        if (namePiece != ""){
+            for(let roomType of roomTypes){
+                if(roomType.name.includes(String(namePiece))){
+                    roomTypesFound.push(roomType)
+                }
+            }
+            setRoomTypes(roomTypesFound)
+        } else {
+            setRoomTypes(route.params.Hotel.roomTypes)
+        }
+    }
 
     const onChangeInCheck = (event: any, selectedValue: Date | undefined) => {
         const currentDate = selectedValue || new Date();
@@ -48,11 +63,11 @@ export default ({route}: {route: any}) => {
 
     return(
         <SafeAreaView style={generic.fullScreen}>
-            <View>
-                <TextInput style={generic.textInput} placeholder="search for a room type"/>
-                <Pressable>
-                    <Entypo name="menu" size={24} color="black" />
-                </Pressable>    
+            <View style={[generic.row, {alignItems: 'center'}]}>
+                <TextInput style={generic.textInputFull} placeholder="search for a room type" onChangeText={(value: string) => setNamePiece(value)}/>
+                <Pressable onPress={() => applyFilters()}>
+                    <FontAwesome style={{position:'absolute', top:-11, right:10}} name="search" size={20} color="black" />
+                </Pressable> 
             </View>
 
                 <View style={[modal.modalContainer, generic.row, generic.spaceBetween]}>

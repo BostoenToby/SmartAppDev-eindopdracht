@@ -16,7 +16,7 @@ export default ({visible, date, onChange, buttonModalCallback, buttonCallback}: 
                 visible = {visible}
                 >
                 <View style={modal.modal}>
-                    <View style={modal.modalBox}>
+                    <View style={modal.modalBoxDateTime}>
                         <DateTimePicker style={modal.modalDateTime}
                             value={date}
                             mode={'date'}

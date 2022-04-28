@@ -78,11 +78,9 @@ export default function DetailPage ({ route }: { route: any }){
                             </View>
                         </View>
                     </View>
-                    {/* <FlatList style={{marginBottom: 80}} data={reviews} scrollEnabled={false} renderItem={renderReview}/> */}
-                    {/* map function */}
                     <View style={{marginBottom: 60}}>
                         {reviews?.map((val, index) => {
-                        return(<ReviewCard review={val}/>)
+                        return(<ReviewCard key={val.id} review={val}/>)
                     })}
                     </View>
                 </ScrollView>

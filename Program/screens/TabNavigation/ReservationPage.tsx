@@ -17,18 +17,20 @@ export default function ReservationPage({route}: {route: any }){
     const [lastName, setLastName] = useState<string>();
     const [mail, setMail] = useState<string>();
 
-    const { goBack } = useNavigation<StackNavigationProp<ParamListBase>>();
+    const { navigate, goBack } = useNavigation<StackNavigationProp<ParamListBase>>();
 
     const getReservationId = async() => {
         const tx: SQLTransaction = await transaction()
         const res: SQLResultSet = await statement(tx, "SELECT * FROM reservation2 WHERE id=(?)", [route.params.id])
         setReservation(res.rows._array[0])
+        console.log({reservation})
     }
 
     const putReservationDb = async() => {
         const tx: SQLTransaction = await transaction()
         const res: SQLResultSet = await statement(tx, "UPDATE reservation2 SET firstName=(?) , lastName=(?) , mail=(?)", [firstName, lastName, mail])
         getReservationId()
+        navigate("LoadingPage")
     }
 
     const putReservationBackwardsDb = async() => {
@@ -43,23 +45,29 @@ export default function ReservationPage({route}: {route: any }){
 
     return(
         <SafeAreaView style={generic.fullScreen}>
-            <View style={generic.marginHor}>
+            <View style={[generic.marginHor, generic.fullScreenSpecial]}>
                 <Text style={generic.reservationTitle}>Summary</Text>
-                <View style={generic.reservationContainer}>
-                    <Text style={{fontSize: 18}}>{reservation?.hotelName}</Text>
-                    <Text style={{fontSize: 14}}>{reservation?.roomTypeName}</Text>
-                    <Text>Inchecken: {reservation?.incheckDate}</Text>
-                    <Text>Outchecken: {reservation?.outcheckDate}</Text>
-                    <Text>Price: €{reservation?.price}</Text>
-                    <Text></Text>
+                <View style={[generic.row, generic.reservationContainer, {justifyContent: "space-between", alignItems:"center", padding: 10}]}>
+                <View style={{flexDirection: "column", alignItems: "center"}}>
+                    <Image style={[generic.imageSmall, {alignItems: "center"}]} source={{uri: "https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg"}}/>
+                    <Text style={{fontSize: 16}}>{reservation?.hotelName}</Text>
+                </View>
+                    <View>
+                        <Text style={{fontSize: 16}}>{reservation?.roomTypeName}</Text>
+                        <Text style={{fontSize: 16}}>Inchecken: {reservation?.incheckDate}</Text>
+                        <Text style={{fontSize: 16}}>Outchecken: {reservation?.outcheckDate}</Text>
+                        <Text style={{fontSize: 16}}>Price: €{reservation?.price}</Text>
+                    </View>
                 </View>
                 <Text style={generic.reservationTitle}>Information</Text>
                 <View style={generic.reservationContainer}>
                     <View style={generic.inputContainer}>
-                        <InputFieldSmall label="First name" placeholder="e.g. John" callback={(value: string) => setFirstName(value)}/>
-                        <InputFieldSmall label="Last name" placeholder="e.g. Smith" callback={(value: string) => setLastName(value)}/>
+                        <View style ={generic.inputRow}>
+                            <InputFieldSmall label="First name" placeholder="e.g. John" callback={(value: string) => setFirstName(value)}/>
+                            <InputFieldSmall label="Last name" placeholder="e.g. Smith" callback={(value: string) => setLastName(value)}/>
+                        </View>
+                        <InputField label="E-mail address" placeholder="e.g. john.smith@gmail.com" callback={(value: string) => setMail(value)}/>
                     </View>
-                    <InputField label="E-mail address" placeholder="e.g. john.smith@gmail.com" callback={(value: string) => setMail(value)}/>
                 </View>
             </View>
             <BottomBar returnCallback={() => putReservationBackwardsDb()} nextCallback={() => putReservationDb()} returnTitle="Return" nextTitle="Reservate"/>

@@ -17,6 +17,8 @@ import ReservationPage from './screens/TabNavigation/ReservationPage';
 import { SQLResultSet, SQLTransaction } from 'expo-sqlite';
 import { statement, transaction } from './utils/db';
 import { useEffect } from 'react';
+import LoadingPage from './screens/TabNavigation/LoadingPage';
+import InlogNavigation from './screens/InlogNavigation';
 
 export default function App() {
 
@@ -42,10 +44,12 @@ export default function App() {
     <NavigationContainer>
       <SafeAreaProvider>
       <Stack.Navigator screenOptions={screenOptions}>
+            <Stack.Screen name="Login" component={InlogNavigation} />
             <Stack.Screen name="OverView" component={TabNavigation} />
             <Stack.Screen name="DetailPage" component={DetailPage} />
             <Stack.Screen name="RoomTypePage" component={RoomTypePage} />
             <Stack.Screen name="ReservationPage" component={ReservationPage} />
+            <Stack.Screen name="LoadingPage" component={LoadingPage} />
         </Stack.Navigator>
       </SafeAreaProvider>
     </NavigationContainer>

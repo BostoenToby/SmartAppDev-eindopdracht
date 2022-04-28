@@ -9,12 +9,13 @@ import map from "../styling/map";
 import { getData } from "./TabNavigation/Overview";
 import { useNavigation, ParamListBase } from '@react-navigation/native';
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { backendUrl } from "../utils/enviroments";
 
 export default function Map () {
     const [hotels, setHotels] = useState<Hotel[]>()
     const [coordinates, setCoordinates] = useState<Coordinates[]>()
     const getHotels = async() => {
-        const hotels = await getData("http://172.30.19.43:3000/hotels")
+        const hotels = await getData(`${backendUrl}/hotels`)
         setHotels(hotels);
     }
 

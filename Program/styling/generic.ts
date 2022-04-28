@@ -9,8 +9,25 @@ export default StyleSheet.create({
         width: Dimensions.get("window").width, 
         height: Dimensions.get("window").height
     },
+    fullScreenSpecial: {
+        width: Dimensions.get("window").width/20*18, 
+        height: Dimensions.get("window").height-80,
+        marginTop: 80
+    },
+    fullScreenMiddle: {
+        width: Dimensions.get("window").width,
+        height: Dimensions.get("window").height,
+    },
     textInput: {
         width: '84%', 
+        backgroundColor: '#FFFFFF', 
+        borderRadius: 5, 
+        height: 30,
+        marginLeft: "2,5%",
+        marginVertical: 10
+    },
+    textInputFull: {
+        width: '95%', 
         backgroundColor: '#FFFFFF', 
         borderRadius: 5, 
         height: 30,
@@ -28,7 +45,14 @@ export default StyleSheet.create({
     imageBig: {
         height: Dimensions.get('window').height / 3, 
         width: Dimensions.get('window').width - 10, 
-        borderRadius: 10, marginHorizontal: 5
+        borderRadius: 10, 
+        marginHorizontal: 5
+    },
+    imageSmall: {
+        height: 80, 
+        width: 80,
+        borderRadius: 10, 
+        marginHorizontal: 5
     },
     ratingTitle: {
         fontSize:24, 
@@ -62,10 +86,18 @@ export default StyleSheet.create({
         marginBottom: 12
     },
     reservationTitle: {
-        fontSize: 20
+        fontSize: 24
     },
     inputContainer: {
+        padding: 10
+    },
+    inputRow: {
         flexDirection:"row", 
-        justifyContent:"space-between"
+        justifyContent:"space-between", 
+    },
+    loadingAnimation: {
+        width: Dimensions.get("window").width/4*3,
+        height: Dimensions.get("window").height/4*3,
+        marginLeft: 50
     }
 })
