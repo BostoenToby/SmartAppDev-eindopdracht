@@ -1,11 +1,11 @@
 import { createStackNavigator, StackNavigationOptions } from "@react-navigation/stack";
-import CreateAccount from "./CreateAccount";
 import Login from "./Login";
 import { useNavigation, ParamListBase } from '@react-navigation/native';
 import { AuthContext } from "../../utils/AuthContext";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { useState } from "react";
 import { auth } from "../../utils/Firebase";
+import Register from "./Register";
 
 export default () => {
     const Stack = createStackNavigator();
@@ -31,7 +31,7 @@ export default () => {
         <AuthContext.Provider value={{user, setUser}}>
             <Stack.Navigator screenOptions={screenOptions}>
                 <Stack.Screen name="Login" component={Login} />
-                <Stack.Screen name="CreateAccount" component={CreateAccount} />
+                <Stack.Screen name="Register" component={Register} />
             </Stack.Navigator>
         </AuthContext.Provider>
     )

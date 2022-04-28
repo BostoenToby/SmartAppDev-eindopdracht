@@ -7,3 +7,11 @@ export const GenericButton = ({text, callback}: {text: string, callback: any}) =
         </Pressable>
     )
 }
+
+export const SilentButton = ({text, callback}: {text: string, callback: any}) => {
+    return(
+        <Pressable style={{justifyContent: "center", alignItems: "center"}} onPress={callback}>
+            <Text style={{color: '#D3D3D3'}}>{text}</Text>
+        </Pressable>
+    )
+}

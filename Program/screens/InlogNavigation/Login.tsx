@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../utils/AuthContext";
 import { auth } from "../../utils/Firebase";
 import { InputField } from "../../components/InputField";
-import { GenericButton } from "../../components/GenericButton";
+import { GenericButton, SilentButton } from "../../components/GenericButton";
 import generic from "../../styling/generic";
 
 export default () => {
@@ -77,25 +77,21 @@ export default () => {
     }, [userCredentials.email, userCredentials.password])
 
     return (
-        <SafeAreaView>
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                {/* <Pressable onPress={() => {navigate("OverView")}}>
-                </Pressable> */}
-
-                <Text style={generic.title}>Login</Text>
-                    <View style={{backgroundColor: '#FFFFFF', padding: 20}}>
-                        <InputField label="E-mail" placeholder="john.smith@gmail.com" callback={(value: string) => setUserCredentials((u) => {
-                            // @ts-ignore
-                            u.email = value
-                            return{...u}
-                        })} />
-                        <InputField label="Password" placeholder="somePassword123" callback={(value: string) => setUserCredentials((u) => {
-                            // @ts-ignore
-                            u.password = value
-                            return{...u}
-                        })} />
-                        <View style={{alignItems: 'center'}}><GenericButton text="Login" callback={()=>{login()}} /></View>
-                    </View>
+        <SafeAreaView style={[generic.fullScreen, {justifyContent: 'center', alignItems: 'center'}]}>
+            <Text style={generic.title}>Login</Text>
+            <View style={{backgroundColor: '#FFFFFF', padding: 20}}>
+                <InputField label="E-mail" placeholder="john.smith@gmail.com" callback={(value: string) => setUserCredentials((u) => {
+                    // @ts-ignore
+                    u.email = value
+                    return{...u}
+                })} />
+                <InputField label="Password" placeholder="somePassword123" callback={(value: string) => setUserCredentials((u) => {
+                    // @ts-ignore
+                    u.password = value
+                    return{...u}
+                })} />
+                <View style={{alignItems: 'center'}}><GenericButton text="Login" callback={()=>{login()}} /></View>
+                <View style={{alignItems: 'center', paddingTop: 8}}><SilentButton text="Create an account" callback={() => navigate("Register")} /></View>
             </View>
         </SafeAreaView>
     )
