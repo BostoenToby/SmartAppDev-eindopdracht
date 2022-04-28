@@ -1,15 +1,38 @@
-import { createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator, StackNavigationOptions } from "@react-navigation/stack";
 import CreateAccount from "./CreateAccount";
 import Login from "./Login";
 import { useNavigation, ParamListBase } from '@react-navigation/native';
+import { AuthContext } from "../../utils/AuthContext";
+import { onAuthStateChanged, User } from "firebase/auth";
+import { useState } from "react";
+import { auth } from "../../utils/Firebase";
 
 export default () => {
     const Stack = createStackNavigator();
+    const [user, setUser] = useState<User>()
+    const [resolved, setResolved] = useState<boolean>()
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+         // console.log(user)
+         setUser(user as User)
+        }
+        setResolved(true)
+     }, (error => {
+         console.error(error)
+     }))
+    //  if a user is logged in
+
+    const screenOptions: StackNavigationOptions = {
+        headerShown: false,
+    }
 
     return(
-        <Stack.Navigator>
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="CreateAccount" component={CreateAccount} />
-        </Stack.Navigator>
+        <AuthContext.Provider value={{user, setUser}}>
+            <Stack.Navigator screenOptions={screenOptions}>
+                <Stack.Screen name="Login" component={Login} />
+                <Stack.Screen name="CreateAccount" component={CreateAccount} />
+            </Stack.Navigator>
+        </AuthContext.Provider>
     )
 }
