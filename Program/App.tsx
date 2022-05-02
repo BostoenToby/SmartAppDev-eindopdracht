@@ -44,7 +44,7 @@ export default function App() {
     <NavigationContainer>
       <SafeAreaProvider>
       <Stack.Navigator screenOptions={screenOptions}>
-            <Stack.Screen name="Login" component={InlogNavigation} />
+            <Stack.Screen name="Inloggen" component={InlogNavigation} />
             <Stack.Screen name="OverView" component={TabNavigation} />
             <Stack.Screen name="DetailPage" component={DetailPage} />
             <Stack.Screen name="RoomTypePage" component={RoomTypePage} />

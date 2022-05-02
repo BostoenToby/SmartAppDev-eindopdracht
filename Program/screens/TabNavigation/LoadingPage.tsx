@@ -5,6 +5,8 @@ import generic from "../../styling/generic";
 import { GenericButton } from "../../components/GenericButton";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation, ParamListBase } from '@react-navigation/native';
+import { SQLResultSet, SQLTransaction } from "expo-sqlite";
+import { statement, transaction } from "../../utils/db";
 
 export default () => {
     const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>();

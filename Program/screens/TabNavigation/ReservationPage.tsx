@@ -10,8 +10,12 @@ import { statement, transaction } from "../../utils/db"
 import { useNavigation, ParamListBase } from '@react-navigation/native';
 import BottomBar from "../../components/BottomBar"
 import generic from "../../styling/generic"
+import { backendUrl } from "../../utils/enviroment"
+import { postData } from "../../utils/APIMethods"
+import { getData } from "./Overview"
 
 export default function ReservationPage({route}: {route: any }){
+    console.log({route})
     const [reservation, setReservation] = useState<Reservation>()
     const [firstName, setFirstName] = useState<string>();
     const [lastName, setLastName] = useState<string>();
@@ -23,14 +27,28 @@ export default function ReservationPage({route}: {route: any }){
         const tx: SQLTransaction = await transaction()
         const res: SQLResultSet = await statement(tx, "SELECT * FROM reservation2 WHERE id=(?)", [route.params.id])
         setReservation(res.rows._array[0])
-        console.log({reservation})
+    }
+
+    const postHotelReservation = async() => {
+        const tx: SQLTransaction = await transaction()
+        const res: SQLResultSet = await statement(tx, "SELECT hotelName, roomTypeName, incheckDate, outcheckDate, price, firstName, lastName, mail FROM reservation2 WHERE id=(?)", [route.params.id])
+        const reservation: Reservation = res.rows._array[0]
+        const response = postData(`${backendUrl}/reservation`, reservation).then((data) => {
+            console.log(data)
+        })
+        console.log(`${backendUrl}/reservation`)
     }
 
     const putReservationDb = async() => {
+        let inserted: boolean = false
         const tx: SQLTransaction = await transaction()
-        const res: SQLResultSet = await statement(tx, "UPDATE reservation2 SET firstName=(?) , lastName=(?) , mail=(?)", [firstName, lastName, mail])
-        getReservationId()
-        navigate("LoadingPage")
+        const res: SQLResultSet = await statement(tx, "UPDATE reservation2 SET firstName=(?) , lastName=(?) , mail=(?) WHERE id=(?)", [firstName, lastName, mail, route.params.id])
+        inserted = res.rowsAffected === 1
+        if(inserted){
+            await getReservationId()
+            postHotelReservation()
+            navigate("LoadingPage")
+        }
     }
 
     const putReservationBackwardsDb = async() => {

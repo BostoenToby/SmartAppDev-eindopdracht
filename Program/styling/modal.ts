@@ -7,12 +7,28 @@ export default StyleSheet.create({
         justifyContent:'center', 
         alignItems: 'center',
     },
+    modalRightAbove: {
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.2)',
+        justifyContent:'center',
+        alignItems: 'center'
+    },
     modalBox: {
         height: Dimensions.get('window').height/2,
         width: Dimensions.get('window').width - 50,
         padding: 40,
         justifyContent: 'space-around',
         backgroundColor: '#FFFFFF'
+    },
+    modalBoxSmall: {
+        height: Dimensions.get('window').height/10,
+        width: Dimensions.get('window').width/3,
+        padding: 20,
+        borderRadius: 5,
+        backgroundColor: '#FFFFFF',
+        position: 'absolute',
+        right: 10,
+        top: 80
     },
     modalBoxDateTime: {
         height: Dimensions.get('window').height/2,

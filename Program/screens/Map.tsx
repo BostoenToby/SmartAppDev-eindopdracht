@@ -9,7 +9,7 @@ import map from "../styling/map";
 import { getData } from "./TabNavigation/Overview";
 import { useNavigation, ParamListBase } from '@react-navigation/native';
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { backendUrl } from "../utils/enviroments";
+import { backendUrl } from "../utils/enviroment";
 
 export default function Map () {
     const [hotels, setHotels] = useState<Hotel[]>()

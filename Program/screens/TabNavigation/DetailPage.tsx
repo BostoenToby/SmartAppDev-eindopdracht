@@ -32,22 +32,19 @@ export default function DetailPage ({ route }: { route: any }){
         const res: SQLResultSet = await statement(tx, "SELECT * FROM reservation2")
     }
 
-    useEffect(() => {
-        getReservations()
-    }, [])
-
     const renderReview = ({ item }: { item: Review }) => (
         <ReviewCard review={item}/>
     )
 
     useEffect(() => {
+        getReservations()
         setReviews(hotel.reviews)
     }, [])
 
     return(
         <SafeAreaView style={generic.fullScreen}>
                 <ScrollView>
-                    <Image style={generic.imageBig} source={{uri: "https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg"}}/>
+                    <Image style={generic.imageBig} source={{uri: route.params.hotel.image}}/>
                     <Text style={generic.title}>{hotel.name}</Text>
                     <Text style={generic.description}>{hotel.description}</Text>
                     <MapView style={map.smallMap} zoomEnabled={true} zoomControlEnabled={true} initialRegion={{
@@ -60,7 +57,7 @@ export default function DetailPage ({ route }: { route: any }){
                     </MapView>
                     <Text style={[generic.ratingTitle, generic.marginHor]}>Rating & reviews</Text>
                     <View style={{flexDirection: 'row', marginHorizontal:Dimensions.get('window').width/20, justifyContent:"space-between"}}>
-                        <Text style={generic.ratingNumber}>{hotel.rating}⭐</Text>
+                        <Text style={generic.ratingNumber}>⭐</Text>
                         <View style={generic.row}>
                             <View>
                                 <Text style={generic.font8}>⭐⭐⭐⭐⭐</Text>

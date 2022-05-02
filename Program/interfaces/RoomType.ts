@@ -9,5 +9,6 @@ export default interface RoomType {
     wifi: boolean,
     view: boolean,
     price: number,
-    hotelName: string
+    hotelName: string,
+    image: string
 }

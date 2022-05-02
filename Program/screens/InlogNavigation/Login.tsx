@@ -8,6 +8,7 @@ import { auth } from "../../utils/Firebase";
 import { InputField } from "../../components/InputField";
 import { GenericButton, SilentButton } from "../../components/GenericButton";
 import generic from "../../styling/generic";
+import {getItemAsync, deleteItemAsync, setItemAsync, WHEN_UNLOCKED_THIS_DEVICE_ONLY} from 'expo-secure-store'
 
 export default () => {
     const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>();
@@ -37,10 +38,13 @@ export default () => {
         })
     }
 
-    const login = (): void => {
+    const login = async() => {
         // TODO: kijken of er al ingelogd geweest is --> secure storage
+        await setItemAsync("mail", userCredentials.email);
+        // await setItemAsync(userCredentials.email, userCredentials.password);
         signInWithEmailAndPassword(auth, userCredentials.email, userCredentials.password).then((u: UserCredential) => {
-            setUser(u.user)   
+            setUser(u.user) 
+            const mail = userCredentials.email  
             navigate("OverView")     
         }).catch((err) => {
             setErrors((currentErrors: any) => {
@@ -72,9 +76,8 @@ export default () => {
     }, [userCredentials.email])
 
     useEffect(() => {
-        console.log(userCredentials.email)
-        console.log(userCredentials.password)
-    }, [userCredentials.email, userCredentials.password])
+        deleteItemAsync("mail")
+    }, [])
 
     return (
         <SafeAreaView style={[generic.fullScreen, {justifyContent: 'center', alignItems: 'center'}]}>

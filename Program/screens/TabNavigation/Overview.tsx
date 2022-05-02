@@ -9,9 +9,13 @@ import { Entypo, FontAwesome } from '@expo/vector-icons';
 import modal from "../../styling/modal";
 import { GenericButton } from "../../components/GenericButton";
 import { InputFieldSmall, InputFieldSmallHorizontal, InputFieldXS } from "../../components/InputField";
-import { backendUrl } from "../../utils/enviroments";
+import { backendUrl } from "../../utils/enviroment";
 import Filter from "../../components/Filter";
 import FilterTag from "../../components/FilterTag";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { useNavigation, ParamListBase } from '@react-navigation/native';
+import {getItemAsync, deleteItemAsync, setItemAsync, WHEN_UNLOCKED_THIS_DEVICE_ONLY} from 'expo-secure-store'
+
 
 export async function getData(url=''): Promise<any>{
     // header meegeven voor JWT
@@ -19,7 +23,7 @@ export async function getData(url=''): Promise<any>{
     return await response.json()
 }
 
-export default function OverView(){
+export default function OverView({mail}: {mail: string}){
     const [hotels, setHotels] = useState<Hotel[]>()
     const [modalVisible, setModalVisible] = useState<boolean>(false)
     const [region, setRegion] = useState<string>("")
@@ -27,6 +31,12 @@ export default function OverView(){
     const [pricePerNightMin, setPricePerNightMin] = useState<number>(0)
     const [pricePerNightMax, setPricePerNightMax] = useState<number>(10000)
     const [namePiece, setNamePiece] = useState<string>("");
+    const {navigate, goBack} = useNavigation<StackNavigationProp<ParamListBase>>();
+
+    const readReservationsDb = async() => {
+        const tx: SQLTransaction = await transaction()
+        const res: SQLResultSet = await statement(tx, 'SELECT * FROM reservation2')
+    }
 
     const getHotels = async() => {
         const hotels = await getData(`${backendUrl}/hotels/`)
@@ -34,29 +44,21 @@ export default function OverView(){
     }
 
     const getHotelsFilterRegionNamepiece = async() => {
-        const url = `${backendUrl}/hotels/Region/Filter/Namepiece/Region=${region}&PricePerNightMin=${String(pricePerNightMin).replace(",", ".")}&PricePerNightMax=${String(pricePerNightMax).replace(",", ".")}&StarRating=${String(starRating).replace(",", ".")}&Namepiece=${namePiece}`
-        console.log(url)
         const hotels = await getData(`${backendUrl}/hotels/Region/Filter/Namepiece/Region=${region}&PricePerNightMin=${String(pricePerNightMin).replace(",", ".")}&PricePerNightMax=${String(pricePerNightMax).replace(",", ".")}&StarRating=${String(starRating).replace(",", ".")}&Namepiece=${namePiece}`)
         setHotels(hotels);
     }
 
     const getHotelsFilterNamePiece = async() => {
-        const url = `${backendUrl}/hotels/Filter/Namepiece/PricePerNightMin=${String(pricePerNightMin).replace(",", ".")}&PricePerNightMax=${String(pricePerNightMax).replace(",", ".")}&StarRating=${String(starRating).replace(",", ".")}&Namepiece=${namePiece}`
-        console.log(url)
         const hotels = await getData(`${backendUrl}/hotels/Filter/Namepiece/PricePerNightMin=${String(pricePerNightMin).replace(",", ".")}&PricePerNightMax=${String(pricePerNightMax).replace(",", ".")}&StarRating=${String(starRating).replace(",", ".")}&Namepiece=${namePiece}`)
         setHotels(hotels);
     }
 
     const getHotelsFilter = async() => {
-        const url = `${backendUrl}/hotels/Filter/StarRating=${String(starRating).replace(",",'.')}&PricePerNightMin=${String(pricePerNightMin).replace(",",'.')}&PricePerNightMax=${String(pricePerNightMax).replace(",",'.')}`
-        console.log(url)
         const hotels = await getData(`${backendUrl}/hotels/Filter/StarRating=${String(starRating).replace(",",'.')}&PricePerNightMin=${String(pricePerNightMin).replace(",",'.')}&PricePerNightMax=${String(pricePerNightMax).replace(",",'.')}`)
         setHotels(hotels);
     }
 
     const getHotelsFilterRegion = async() => {
-        const url = `${backendUrl}/hotels/Region/Filter/Region=${region}&PricePerNightMin=${String(pricePerNightMin).replace(",",'.')}&PricePerNightMax=${String(pricePerNightMax).replace(",",'.')}&StarRating=${String(starRating).replace(",",'.')}`
-        console.log(url)
         const hotels = await getData(`${backendUrl}/hotels/Region/Filter/Region=${region}&PricePerNightMin=${String(pricePerNightMin).replace(",",'.')}&PricePerNightMax=${String(pricePerNightMax).replace(",",'.')}&StarRating=${String(starRating).replace(",",'.')}`)
         setHotels(hotels);
     }
@@ -68,7 +70,6 @@ export default function OverView(){
     let filters: string[] = ["Region", "Stars", "Min price", "Max price", "Name"]
 
     const applyFilters = async() => {
-        console.log("applying")
         if(region != ""){
             if(namePiece != "")
                 await getHotelsFilterRegionNamepiece();
@@ -83,45 +84,13 @@ export default function OverView(){
         setModalVisible(false)
     }
 
-    const applyFiltersSpecial = async(parameter: string) => {
-        console.log("Special applying")
-        switch(parameter){
-            case "region":
-                setRegion("")
-                break;
-            
-            case "starRating":
-                setStarRating(0)
-                break;
-            
-            case "pricePerNightMin":
-                setPricePerNightMin(0)
-                break;
-
-            case "pricePerNightMax":
-                setPricePerNightMax(10000)
-                break;
-
-            case "namePiece":
-                setNamePiece("")
-                break;
-        }
-
-        if(region != ""){
-            if(namePiece != "")
-                await getHotelsFilterRegionNamepiece();
-            else
-                await getHotelsFilterRegion();
-        } else {
-            if(namePiece != "")
-                await getHotelsFilterNamePiece()
-            else
-                await getHotelsFilter();
-        }
-        setModalVisible(false)
+    const getSecure = async() => {
+        const token = await getItemAsync("mail")
+        console.log(token)
     }
 
     useEffect(() => {
+        getSecure()
         getHotels()
     }, [])
 
@@ -164,7 +133,7 @@ export default function OverView(){
                                 filterValue = region
                                 callback=async() => {
                                     await setRegion(""); 
-                                    applyFiltersSpecial("region")}
+                                    applyFilters()}
                                 break;
                                 
                         
@@ -204,6 +173,9 @@ export default function OverView(){
             </View>
             <FlatList style={{marginBottom:54}} data={hotels} 
             renderItem={renderHotel}/>
+            <Pressable onPress={()=>{navigate("Inloggen")}}>
+                <Text>Go back</Text>
+            </Pressable>
         </SafeAreaView>
     )
 }

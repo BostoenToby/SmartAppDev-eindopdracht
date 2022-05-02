@@ -1,4 +1,4 @@
-import { Text, View, Image, Button, Alert, TouchableOpacity, Pressable } from "react-native"
+import { Text, View, Image, Button, Alert, TouchableOpacity, Pressable, ImageSourcePropType } from "react-native"
 import Hotel from "../interfaces/Hotel"
 import { Feather } from '@expo/vector-icons'; 
 import { useNavigation, ParamListBase } from '@react-navigation/native';
@@ -7,27 +7,23 @@ import {GenericButton} from "./GenericButton";
 import { SQLResultSet, SQLTransaction } from "expo-sqlite";
 import { statement, transaction } from "../utils/db";
 import uuid from 'react-native-uuid';
+import { useEffect, useState } from "react";
 
-export default ({ hotel }: { hotel: Hotel}) => {
+export default ({ hotel }: { hotel: Hotel }) => {
     const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>();
-    // TODO: look how we can work with navigation without generating it everytime we are at a new page
 
     const AddReservationDb = async() => {
         let inserted: boolean = false
         let Uuid: string = String(uuid.v4())
-        console.log(Uuid)
         const tx: SQLTransaction = await transaction()
         const res: SQLResultSet = await statement(tx, 'INSERT INTO `reservation2` (id, hotelName, roomTypeName, incheckDate, outcheckDate, price, firstName, lastName, mail) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [Uuid, hotel.name, null, null, null, null, null, null, null])
         inserted = res.rowsAffected === 1
         if(inserted) navigate('DetailPage', {hotel: hotel, id: Uuid})
-        // TODO: get Id from insert statement --> if we return from the next page --> remove the reservation with id == Id
-        // TODO: in further pages we need to update this reservation with roomTypeName, ... until we get to the last step of the reservation
     }
 
     return(
         <View style={{flexDirection: "row", height: 120, width:"auto", marginVertical: 5, paddingHorizontal: 5, borderRadius: 5, backgroundColor:"#FFFFFF", justifyContent:"space-between", alignItems: "center", marginHorizontal: 12}}>
-            {/* <Image source={{uri: hotel.image}}/> */}
-            <Image style={{height: 100, width: 100, borderRadius:5}} source={{uri: "https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg"}}/>
+            <Image style={{height: 100, width: 100, borderRadius:5}} source={{uri: hotel.image}}/>
             <View style={{position:"absolute", left: 120}}>
                 <View style={{flexDirection:"column", alignItems:"flex-start"}}>
                     <Text style={{fontSize: 20, fontWeight: 'bold', paddingVertical: 10}}>{hotel.name}</Text>
@@ -38,7 +34,6 @@ export default ({ hotel }: { hotel: Hotel}) => {
                     </Text>
                 </View>
             </View>
-            {/* <Pressable title="See details" onPress={() => }/> */}
             <View style={{flexDirection:"column", justifyContent:"space-between", alignItems:"center"}}>
                 <Pressable style={{width: 80, height: 35, borderRadius: 20, backgroundColor: "#0084ff", justifyContent: "center", alignItems: "center"}} onPress={() => {
                     AddReservationDb()
