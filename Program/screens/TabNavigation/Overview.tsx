@@ -23,7 +23,7 @@ export async function getData(url=''): Promise<any>{
     return await response.json()
 }
 
-export default function OverView({mail}: {mail: string}){
+export default function OverView({route}: {route: any}){
     const [hotels, setHotels] = useState<Hotel[]>()
     const [modalVisible, setModalVisible] = useState<boolean>(false)
     const [region, setRegion] = useState<string>("")
@@ -33,14 +33,20 @@ export default function OverView({mail}: {mail: string}){
     const [namePiece, setNamePiece] = useState<string>("");
     const {navigate, goBack} = useNavigation<StackNavigationProp<ParamListBase>>();
 
-    const readReservationsDb = async() => {
-        const tx: SQLTransaction = await transaction()
-        const res: SQLResultSet = await statement(tx, 'SELECT * FROM reservation2')
+    var filters: any = {
+        Region: "",
+        NamePiece: "",
+        StarRating : 0,
+        MinPrice: 0,
+        MaxPrice: 100000
     }
+
+    let filtersList: string[] = ["Region", "NamePiece", "StarRating", "MinPrice", "MaxPrice"]
 
     const getHotels = async() => {
         const hotels = await getData(`${backendUrl}/hotels/`)
         setHotels(hotels);
+        await applyFilters()
     }
 
     const getHotelsFilterRegionNamepiece = async() => {
@@ -67,8 +73,6 @@ export default function OverView({mail}: {mail: string}){
         setModalVisible(false)
     }
 
-    let filters: string[] = ["Region", "Stars", "Min price", "Max price", "Name"]
-
     const applyFilters = async() => {
         if(region != ""){
             if(namePiece != "")
@@ -84,13 +88,22 @@ export default function OverView({mail}: {mail: string}){
         setModalVisible(false)
     }
 
-    const getSecure = async() => {
-        const token = await getItemAsync("mail")
-        console.log(token)
+    const applyFilters2 = async({Region="", NamePiece=""}: {Region:string, NamePiece: string}) => {
+        if(Region != ""){
+            if(NamePiece != "")
+                await getHotelsFilterRegionNamepiece();
+            else
+                await getHotelsFilterRegion();
+        } else {
+            if(NamePiece != "")
+                await getHotelsFilterNamePiece()
+            else
+                await getHotelsFilter();
+        }
+        setModalVisible(false)
     }
 
     useEffect(() => {
-        getSecure()
         getHotels()
     }, [])
 
@@ -106,7 +119,12 @@ export default function OverView({mail}: {mail: string}){
                 </Pressable>
                 <Filter visible={modalVisible} 
                 title="Hotel filters"
-                callbackInput1={(value: string) => {setRegion(value)}}
+                callbackInput1={(value: string) => {
+                    setRegion(value)
+                    filters.Region = value
+                    // console.log("test filter 1")
+                    // console.log(filters)
+                }}
                 label1="Region:"
                 placeholder1="Kortrijk/West-Vlaanderen"
                 callbackInput2={(value: number) => {setStarRating(value)}}
@@ -119,63 +137,24 @@ export default function OverView({mail}: {mail: string}){
                 label4="Maximum price (€):"
                 placeholder4="10000"
                 callbackCancel={() => cancelFilters()}
-                callbackSave ={() => applyFilters()}
+                callbackSave ={() => getHotels()}
                 callbackPressButton={() => setModalVisible(true)}
                 />
             </View>
             <View>
-                {filters.map((val, index) => {
-                    let filterValue: number|string = ""
-                    let callback: any
-                    switch(val){
-                        case "Region":
-                            if(region != "")
-                                filterValue = region
-                                callback=async() => {
-                                    await setRegion(""); 
-                                    applyFilters()}
-                                break;
-                                
-                        
-                        case "Stars":
-                            if(starRating != 0)
-                                filterValue = starRating
-                                callback=async() => {await setStarRating(0); applyFilters()}
-                                break;
-
-                        case "Min price":
-                            if(pricePerNightMin >= 0)
-                                filterValue = pricePerNightMin
-                                callback=async() => {await setPricePerNightMin(0); applyFilters()}
-                                break;
-
-                        case "Max price":
-                            if(pricePerNightMax < 10000)
-                                filterValue = pricePerNightMax
-                                callback=async() => {await setPricePerNightMax(0); applyFilters()}
-                                break;
-
-                        case "Name":
-                            if(namePiece != "")
-                                filterValue = namePiece
-                                callback=async() => {await setNamePiece(""); applyFilters()}
-                                break;
-
-                        default:
-                            break;
-                                
+                {filtersList?.map((val, index) => {
+                    console.log(filters)
+                    const value: any = Object.values(filters)[index]
+                    console.log(`val --> ${val}`)
+                    console.log(`value --> ${value}`)
+                    if(val == "Region" && value != ""){
+                        console.log(val, value)
+                        return(<FilterTag filter={val} filterValue={value} callback={getHotels()} />)
                     }
-                    if(filterValue != "" && filterValue != 0) 
-                        return(<FilterTag filter={val} filterValue={filterValue} callback={callback}/>)
-                    else
-                        return(<></>)
                 })}
             </View>
             <FlatList style={{marginBottom:54}} data={hotels} 
             renderItem={renderHotel}/>
-            <Pressable onPress={()=>{navigate("Inloggen")}}>
-                <Text>Go back</Text>
-            </Pressable>
         </SafeAreaView>
     )
 }

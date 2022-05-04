@@ -22,14 +22,15 @@ export default function DetailPage ({ route }: { route: any }){
 
     const deleteReservation = async() => {
         const tx: SQLTransaction = await transaction()
-        const res: SQLResultSet = await statement(tx, 'DELETE FROM reservation2 WHERE id = (?)', [route.params.id])
+        const res: SQLResultSet = await statement(tx, 'DELETE FROM reservation3 WHERE id = (?)', [route.params.id])
         goBack()
         // navigate("Overview")
     }
 
     const getReservations = async() => {
         const tx: SQLTransaction = await transaction()
-        const res: SQLResultSet = await statement(tx, "SELECT * FROM reservation2")
+        const res: SQLResultSet = await statement(tx, "SELECT * FROM reservation3 WHERE id = (?)", [route.params.id])
+        console.log(res.rows._array)
     }
 
     const renderReview = ({ item }: { item: Review }) => (

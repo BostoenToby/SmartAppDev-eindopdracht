@@ -19,3 +19,7 @@ export async function postData(url='', body: Object): Promise<any>{
     })
     return await response.json()
 }
+
+export async function deleteData(url=''): Promise<any>{
+    const response = await fetch(url, { method: 'DELETE' })
+}

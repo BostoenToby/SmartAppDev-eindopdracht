@@ -49,7 +49,7 @@ export default () => {
             // <MaterialCommunityIcons name="map" color={color} size={size} />
             // )}} 
             />
-            <Tab.Screen name="Reviews" component={Reviews} 
+            <Tab.Screen name="Reviews" component={() => <Reviews route={{"render": false}}/>} 
             // options={{
             // tabBarLabel: 'Reviews',
             // tabBarIcon: ({ color, size }) => (

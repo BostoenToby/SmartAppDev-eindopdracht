@@ -13,10 +13,11 @@ export default ({ hotel }: { hotel: Hotel }) => {
     const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>();
 
     const AddReservationDb = async() => {
+        console.log(hotel.image)
         let inserted: boolean = false
         let Uuid: string = String(uuid.v4())
         const tx: SQLTransaction = await transaction()
-        const res: SQLResultSet = await statement(tx, 'INSERT INTO `reservation2` (id, hotelName, roomTypeName, incheckDate, outcheckDate, price, firstName, lastName, mail) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [Uuid, hotel.name, null, null, null, null, null, null, null])
+        const res: SQLResultSet = await statement(tx, 'INSERT INTO `reservation3` (id, hotelName, roomTypeName, incheckDate, outcheckDate, price, firstName, lastName, mail, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [Uuid, hotel.name, null, null, null, null, null, null, null, hotel.image])
         inserted = res.rowsAffected === 1
         if(inserted) navigate('DetailPage', {hotel: hotel, id: Uuid})
     }

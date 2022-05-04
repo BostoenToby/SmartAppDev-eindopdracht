@@ -12,5 +12,6 @@ export default interface Reservation {
     incheckDate: Date | null,
     outcheckDate: Date | null,
     price: number | null,
-    roomTypeName: string | null
+    roomTypeName: string | null,
+    image: string,
 }

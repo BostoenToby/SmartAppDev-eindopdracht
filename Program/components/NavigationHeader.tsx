@@ -12,7 +12,7 @@ export default ({title}: {title: string}) => {
     const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>();
 
     const logOut = async() => {
-        console.log("log")
+        // console.log("log")
         try {
             const mail = await getItemAsync("mail")
             if(mail){
@@ -22,7 +22,7 @@ export default ({title}: {title: string}) => {
         } catch (error) {
             
         }
-        console.log("logout")
+        // console.log("logout")
         navigate("Inloggen")
     }
 

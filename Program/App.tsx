@@ -26,7 +26,7 @@ export default function App() {
     const tx: SQLTransaction = await transaction();
     const response: SQLResultSet | void = await statement(
       tx, 
-      'CREATE TABLE IF NOT EXISTS reservation2 (id TEXT PRIMARY KEY, hotelName text, roomTypeName text, incheckDate string, outcheckDate string, price float, firstName text, lastName text, mail text)', 
+      'CREATE TABLE IF NOT EXISTS reservation3 (id TEXT PRIMARY KEY, hotelName text, roomTypeName text, incheckDate string, outcheckDate string, price float, firstName text, lastName text, mail text, image text)', 
     ).catch((err) => console.log(err))
   }
 

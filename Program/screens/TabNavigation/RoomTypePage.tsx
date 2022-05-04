@@ -54,11 +54,18 @@ export default ({route}: {route: any}) => {
 
     const putReservationDb = async() => {
         const tx: SQLTransaction = await transaction()
-        const res: SQLResultSet = await statement(tx, 'UPDATE reservation2 SET incheckDate = (?), outcheckDate = (?) WHERE id=(?)', [incheckDate.toLocaleDateString(), outcheckDate.toLocaleDateString(), route.params.id])
+        const res: SQLResultSet = await statement(tx, 'UPDATE reservation3 SET incheckDate = (?), outcheckDate = (?) WHERE id=(?)', [incheckDate.toLocaleDateString(), outcheckDate.toLocaleDateString(), route.params.id])
+    }
+
+    const getReservations = async() => {
+        const tx: SQLTransaction = await transaction()
+        const res: SQLResultSet = await statement(tx, "SELECT * FROM reservation3 WHERE id = (?)", [route.params.id])
+        console.log(res.rows._array)
     }
 
     useEffect(() => {
         putReservationDb()
+        getReservations()
     }, [incheckDate, outcheckDate])
 
     return(

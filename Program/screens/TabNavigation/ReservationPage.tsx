@@ -15,7 +15,7 @@ import { postData } from "../../utils/APIMethods"
 import { getData } from "./Overview"
 
 export default function ReservationPage({route}: {route: any }){
-    console.log({route})
+    // console.log({route})
     const [reservation, setReservation] = useState<Reservation>()
     const [firstName, setFirstName] = useState<string>();
     const [lastName, setLastName] = useState<string>();
@@ -25,24 +25,26 @@ export default function ReservationPage({route}: {route: any }){
 
     const getReservationId = async() => {
         const tx: SQLTransaction = await transaction()
-        const res: SQLResultSet = await statement(tx, "SELECT * FROM reservation2 WHERE id=(?)", [route.params.id])
+        const res: SQLResultSet = await statement(tx, "SELECT * FROM reservation3 WHERE id=(?)", [route.params.id])
+        console.log("end")
+        console.log(res.rows._array)
         setReservation(res.rows._array[0])
     }
 
     const postHotelReservation = async() => {
         const tx: SQLTransaction = await transaction()
-        const res: SQLResultSet = await statement(tx, "SELECT hotelName, roomTypeName, incheckDate, outcheckDate, price, firstName, lastName, mail FROM reservation2 WHERE id=(?)", [route.params.id])
+        const res: SQLResultSet = await statement(tx, "SELECT hotelName, roomTypeName, incheckDate, outcheckDate, price, firstName, lastName, mail, image FROM reservation3 WHERE id=(?)", [route.params.id])
         const reservation: Reservation = res.rows._array[0]
         const response = postData(`${backendUrl}/reservation`, reservation).then((data) => {
-            console.log(data)
+            // console.log(data)
         })
-        console.log(`${backendUrl}/reservation`)
+        // console.log(`${backendUrl}/reservation`)
     }
 
     const putReservationDb = async() => {
         let inserted: boolean = false
         const tx: SQLTransaction = await transaction()
-        const res: SQLResultSet = await statement(tx, "UPDATE reservation2 SET firstName=(?) , lastName=(?) , mail=(?) WHERE id=(?)", [firstName, lastName, mail, route.params.id])
+        const res: SQLResultSet = await statement(tx, "UPDATE reservation3 SET firstName=(?) , lastName=(?) , mail=(?) WHERE id=(?)", [firstName, lastName, mail, route.params.id])
         inserted = res.rowsAffected === 1
         if(inserted){
             await getReservationId()
@@ -53,7 +55,7 @@ export default function ReservationPage({route}: {route: any }){
 
     const putReservationBackwardsDb = async() => {
         const tx: SQLTransaction = await transaction()
-        const res: SQLResultSet = await statement(tx, "UPDATE reservation2 SET roomTypeName=(?), price=(?) WHERE id=(?)", [null, null, route.params.id])
+        const res: SQLResultSet = await statement(tx, "UPDATE reservation3 SET roomTypeName=(?), price=(?) WHERE id=(?)", [null, null, route.params.id])
         goBack()
     }
 
@@ -67,7 +69,7 @@ export default function ReservationPage({route}: {route: any }){
                 <Text style={generic.reservationTitle}>Summary</Text>
                 <View style={[generic.row, generic.reservationContainer, {justifyContent: "space-between", alignItems:"center", padding: 10}]}>
                 <View style={{flexDirection: "column", alignItems: "center"}}>
-                    <Image style={[generic.imageSmall, {alignItems: "center"}]} source={{uri: "https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg"}}/>
+                    <Image style={[generic.imageSmall, {alignItems: "center"}]} source={{uri: reservation?.image}}/>
                     <Text style={{fontSize: 16}}>{reservation?.hotelName}</Text>
                 </View>
                     <View>

@@ -17,7 +17,7 @@ export default ({ id, roomType }: { id: string, roomType: RoomType }) => {
     const putReservationDb = async() => {
         let inserted: boolean = false
         const tx: SQLTransaction = await transaction()
-        const res: SQLResultSet = await statement(tx, 'UPDATE reservation2 SET roomTypeName = (?), price = (?) WHERE id=(?)', [roomType.name, roomType.price, id])
+        const res: SQLResultSet = await statement(tx, 'UPDATE reservation3 SET roomTypeName = (?), price = (?) WHERE id=(?)', [roomType.name, roomType.price, id])
         inserted = res.rowsAffected === 1
         if(inserted) navigate("ReservationPage", {id: id});
         // TODO: get Id from insert statement --> if we return from the next page --> remove the reservation with id == Id
