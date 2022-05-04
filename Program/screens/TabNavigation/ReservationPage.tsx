@@ -86,7 +86,7 @@ export default function ReservationPage({route}: {route: any }){
                             <InputFieldSmall label="First name" placeholder="e.g. John" callback={(value: string) => setFirstName(value)}/>
                             <InputFieldSmall label="Last name" placeholder="e.g. Smith" callback={(value: string) => setLastName(value)}/>
                         </View>
-                        <InputField label="E-mail address" placeholder="e.g. john.smith@gmail.com" callback={(value: string) => setMail(value)}/>
+                        <InputField label="E-mail address" placeholder="e.g. john.smith@gmail.com" password={false} callback={(value: string) => setMail(value)}/>
                     </View>
                 </View>
             </View>
