@@ -11,10 +11,11 @@ import { GenericButton } from "../../components/GenericButton";
 import { InputFieldSmall, InputFieldSmallHorizontal, InputFieldXS } from "../../components/InputField";
 import { backendUrl } from "../../utils/enviroment";
 import Filter from "../../components/Filter";
-import FilterTag from "../../components/FilterTag";
+import FilterTag, { FilterTagDouble } from "../../components/FilterTag";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation, ParamListBase } from '@react-navigation/native';
 import {getItemAsync, deleteItemAsync, setItemAsync, WHEN_UNLOCKED_THIS_DEVICE_ONLY} from 'expo-secure-store'
+import useForceUpdate from "use-force-update";
 
 
 export async function getData(url=''): Promise<any>{
@@ -31,6 +32,7 @@ export default function OverView({route}: {route: any}){
     const [pricePerNightMin, setPricePerNightMin] = useState<number>(0)
     const [pricePerNightMax, setPricePerNightMax] = useState<number>(10000)
     const [namePiece, setNamePiece] = useState<string>("");
+    const [saved, setSaved] = useState<boolean>(false)
     const {navigate, goBack} = useNavigation<StackNavigationProp<ParamListBase>>();
 
     var filters: any = {
@@ -38,10 +40,10 @@ export default function OverView({route}: {route: any}){
         NamePiece: "",
         StarRating : 0,
         MinPrice: 0,
-        MaxPrice: 100000
+        MaxPrice: 10000
     }
 
-    let filtersList: string[] = ["Region", "NamePiece", "StarRating", "MinPrice", "MaxPrice"]
+    let filtersList: string[] = ["Region", "NamePiece", "StarRating", "Price"]
 
     const getHotels = async() => {
         const hotels = await getData(`${backendUrl}/hotels/`)
@@ -88,24 +90,15 @@ export default function OverView({route}: {route: any}){
         setModalVisible(false)
     }
 
-    const applyFilters2 = async({Region="", NamePiece=""}: {Region:string, NamePiece: string}) => {
-        if(Region != ""){
-            if(NamePiece != "")
-                await getHotelsFilterRegionNamepiece();
-            else
-                await getHotelsFilterRegion();
-        } else {
-            if(NamePiece != "")
-                await getHotelsFilterNamePiece()
-            else
-                await getHotelsFilter();
-        }
-        setModalVisible(false)
-    }
-
     useEffect(() => {
         getHotels()
     }, [])
+
+    useEffect(() => {
+        if(modalVisible == false){
+            applyFilters()
+        }
+    }, [region, namePiece, starRating, pricePerNightMin, pricePerNightMax])
 
     const renderHotel = ({ item }: { item: Hotel }) => (
         <HotelCard key={item.id} hotel={item}/>
@@ -137,12 +130,12 @@ export default function OverView({route}: {route: any}){
                 label4="Maximum price (€):"
                 placeholder4="10000"
                 callbackCancel={() => cancelFilters()}
-                callbackSave ={() => getHotels()}
+                callbackSave ={() => {setModalVisible(false); getHotels()}}
                 callbackPressButton={() => setModalVisible(true)}
                 />
             </View>
-            <View>
-                {filtersList?.map((val, index) => {
+            <View style={{flexDirection: 'row'}}>
+                {/* {filtersList?.map((val, index) => {
                     console.log(filters)
                     const value: any = Object.values(filters)[index]
                     console.log(`val --> ${val}`)
@@ -151,6 +144,66 @@ export default function OverView({route}: {route: any}){
                         console.log(val, value)
                         return(<FilterTag filter={val} filterValue={value} callback={getHotels()} />)
                     }
+                })} */}
+
+                {/* {region ? (
+                    <FilterTag filter="Region: " filterValue={region} callback={async() => {await setRegion("")}}/>
+                ): null}
+                {namePiece ? (
+                    <FilterTag filter="Name: " filterValue={namePiece} callback={() => setNamePiece("")}/>
+                ): null}
+                {starRating ? (
+                    <FilterTag filter="Stars: " filterValue={starRating} callback={() => setStarRating(0)} />
+                ): null}
+                {pricePerNightMax || pricePerNightMin ?(
+                    <FilterTag filter="Price: " filterValue={pricePerNightMin} callback={() => {setPricePerNightMin(0); setPricePerNightMax(100000)}} />
+                ): null} */}
+
+                {/* let filtersList: string[] = ["Region", "NamePiece", "StarRating", "MinPrice", "MaxPrice"] */}
+                {filtersList.map((val: string, index: number) => {
+                let filterValue: number|string = ""
+                let filterValue2: number|string = ""
+                let callback: any
+                switch(val){
+                    case "Region":
+                        if(region != "")
+                            filterValue = region
+                            callback=() => setRegion(""); 
+                            break;
+                            
+                    
+                    case "StarRating":
+                        if(starRating != 0)
+                            filterValue = starRating
+                            callback=() => setStarRating(0)
+                            break;
+
+                    case "Price":
+                        console.log("price")
+                        console.log(pricePerNightMin)
+                        console.log(pricePerNightMax)
+                        if(pricePerNightMax != 10000 || pricePerNightMin != 0)
+                            filterValue = pricePerNightMin
+                            filterValue2 = pricePerNightMax
+                            callback=() => {setPricePerNightMin(0); setPricePerNightMax(10000)}
+                            break;
+
+                    case "NamePiece":
+                        if(namePiece != "")
+                            filterValue = namePiece
+                            callback=() => setNamePiece("")
+                            break;
+
+                    default:
+                        filterValue = ""
+                            
+                }
+                if(filterValue != "" && filterValue != 0) 
+                    return(<FilterTag filter={val} filterValue={filterValue} callback={callback}/>)
+                else if (val=="Price" && (filterValue2!= 10000 || filterValue!=0))
+                    return(<FilterTagDouble filter={val} filterValue1={filterValue} filterValue2={filterValue2} callback={callback}/>)
+                else
+                    return(<></>)
                 })}
             </View>
             <FlatList style={{marginBottom:54}} data={hotels} 

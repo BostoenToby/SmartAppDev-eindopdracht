@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { FlatList, Platform, SafeAreaView, Text, TextInput, View, Modal, Pressable, TouchableWithoutFeedback, Dimensions } from "react-native"
+import { FlatList, SafeAreaView, Text, TextInput, View, Modal, Pressable, TouchableWithoutFeedback, Dimensions } from "react-native"
 import RoomTypeCard from "../../components/RoomTypeCard"
 import RoomType from "../../interfaces/RoomType"
 import DateTimePicker from '@react-native-community/datetimepicker';
