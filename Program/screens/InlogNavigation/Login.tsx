@@ -14,8 +14,8 @@ import { Entypo } from '@expo/vector-icons';
 export default () => {
     const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>();
     const [userCredentials, setUserCredentials] = useState({
-        email: 'test@gmail.com',
-        password: 'test12'
+        email: '',
+        password: ''
     })
     const [errors, setErrors] = useState<any>({ generic: {title: '', message:''}, fields: {
         email: {
@@ -40,6 +40,7 @@ export default () => {
     }
 
     const login = async() => {
+        await checkMail()
         // TODO: kijken of er al ingelogd geweest is --> secure storage
         await setItemAsync("mail", userCredentials.email);
         // await setItemAsync(userCredentials.email, userCredentials.password);
@@ -59,7 +60,7 @@ export default () => {
         })
     }
 
-    useEffect(() => {
+    const checkMail = async() => {
         if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/.test(userCredentials.email)){
             setErrors((currentErrors: any) => {
                 currentErrors.fields.email.hasError = true,
@@ -74,10 +75,15 @@ export default () => {
                 return { ... currentErrors }
             }) 
         }
-    }, [userCredentials.email])
+    }
 
     useEffect(() => {
         deleteItemAsync("mail")
+        setErrors((currentErrors: any) => {
+            currentErrors.fields.email.hasError = false,
+            currentErrors.fields.email.inlineErrorMessage = ""
+            return { ... currentErrors }
+        })
     }, [])
 
     return (

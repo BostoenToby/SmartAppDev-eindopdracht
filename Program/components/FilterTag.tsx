@@ -14,6 +14,7 @@ export default({filter, filterValue, callback}: {filter: string, filterValue:str
 }
 
 export const FilterTagDouble = ({filter, filterValue1, filterValue2, callback}: {filter: string, filterValue1: string|number, filterValue2: string|number, callback: any}) => {
+    if(filterValue1 == "") filterValue1 = 0 
     return(
         <View style={[generic.row, {alignItems: 'center', backgroundColor:'#FFFFFF', width: 'auto', paddingHorizontal: 5, borderRadius: 5, marginHorizontal: 12}]}>
             <Text>{filter}: {filterValue1} - {filterValue2}</Text>

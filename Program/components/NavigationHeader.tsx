@@ -12,7 +12,6 @@ export default ({title}: {title: string}) => {
     const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>();
 
     const logOut = async() => {
-        // console.log("log")
         try {
             const mail = await getItemAsync("mail")
             if(mail){
@@ -20,9 +19,8 @@ export default ({title}: {title: string}) => {
             await deleteItemAsync("mail");
             }
         } catch (error) {
-            
+            console.log(error)
         }
-        // console.log("logout")
         navigate("Inloggen")
     }
 
@@ -39,11 +37,12 @@ export default ({title}: {title: string}) => {
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => setModalVisible(false)}
+                style={{alignItems: "center", justifyContent: "center"}}
             >
             <TouchableOpacity style={modal.modalRightAbove} onPressOut={() => setModalVisible(false)}>
                 <View style={modal.modalBoxSmall}>
                     <Pressable onPress={() => logOut()}>
-                        <Text>Sign out</Text>
+                        <Text style={{textDecorationLine: "underline"}}>Sign out</Text>
                     </Pressable>
                 </View>
             </TouchableOpacity>

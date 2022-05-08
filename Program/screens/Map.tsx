@@ -6,10 +6,10 @@ import { Marker, Callout } from 'react-native-maps';
 import Coordinates from "../interfaces/Coordinates";
 import Hotel from "../interfaces/Hotel";
 import map from "../styling/map";
-import { getData } from "./TabNavigation/Overview";
 import { useNavigation, ParamListBase } from '@react-navigation/native';
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { backendUrl } from "../utils/enviroment";
+import { getData } from "../utils/APIMethods";
 
 export default function Map () {
     const [hotels, setHotels] = useState<Hotel[]>()
@@ -30,11 +30,11 @@ export default function Map () {
             <MapView style={[map.map, StyleSheet.absoluteFillObject]} zoomEnabled={true} zoomControlEnabled={true}>
                 {/* <Marker coordinate={{latitude: 50.821791, longitude: 3.250677}} title={"Howest"} description={"This is a test!"}/> */}
                 {hotels?.map((val, index) => {
-                    return(<Marker coordinate={{latitude: val.latitude, longitude: val.longitude}} title={val.name} description={val.description} onCalloutPress={() => {getParent()?.navigate("DetailPage", {hotel: hotels[index]})}}>
+                    return(<Marker key={index} coordinate={{latitude: val.latitude, longitude: val.longitude}} title={val.name} description={val.description} onCalloutPress={() => {getParent()?.navigate("DetailPage", {hotel: hotels[index]})}}>
                             <Callout>
                                 <View style={{padding: 5}}>
-                                <Text style={{}}>{val.name}</Text>
-                                   <Text>{val.description}</Text>
+                                <Text style={{fontSize: 20, fontWeight: '600'}}>{val.name}</Text>
+                                   <Text style={{width: 300}}>{val.description}</Text>
                                </View>
                             </Callout>
                         </Marker>)

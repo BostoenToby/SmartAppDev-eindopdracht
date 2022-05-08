@@ -14,7 +14,9 @@ export default function Reviews ({route}: {route: any}) {
     const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
     const [mail, setMail] = useState<string>()
     const [reservations, setReservations] = useState<Reservation[]>()
-    const [render, setRender] = useState<boolean>(false)
+    const [render, setRender] = useState<boolean>(true)
+    const [interval2, setInterval] = useState<number>()
+    const reRender = true
     
     const getMail = async() => {
         const mailGet = await getItemAsync("mail");
@@ -27,20 +29,25 @@ export default function Reviews ({route}: {route: any}) {
         const data = await getData(`${backendUrl}/reservations/Mail=${mail}`)
         // console.log("***")
         setReservations(data)
+        setRender(true)
         // console.log(data)
         // console.log(reservations)
     }
 
+    useEffect(() => {
+        getMail()
+    }, [render]) 
+
     const renderReservations = ({ item }: { item: Reservation }) => (
-        <ReservationCard key={item.id} reservation={item} callback={() => getMail()}/>
+        <ReservationCard key={item.id} reservation={item} callback={() => {setRender(false); getMail()}}/>
     )
 
     useEffect(() => {
-        console.log(route.render)
         if(route.render == false){
             getMail()
         }
     }, [])
+
     return (
         <SafeAreaView>
             <FlatList style={{marginBottom:54}} data={reservations} 

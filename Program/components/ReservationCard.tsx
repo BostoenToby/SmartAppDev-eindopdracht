@@ -10,7 +10,6 @@ import { statement, transaction } from "../utils/db";
 export default ({reservation, callback}: {reservation: Reservation, callback: Function}) => {
     const deleteReservation = async() => {
         deleteData(`${backendUrl}/reservation/${reservation.id}`)
-        callback()
     }
 
     return(
@@ -21,7 +20,7 @@ export default ({reservation, callback}: {reservation: Reservation, callback: Fu
                 <Text>Room: {reservation.roomTypeName}</Text>
                 <Text>Dates: {reservation.incheckDate} / {reservation.outcheckDate}</Text>
             </View>
-            <Pressable onPress={() => Alert.alert("Delete reservation", `Are you sure you want to delete the reservation for ${reservation.hotelName}?`, [{text: 'No', onPress: () => console.log("no")},{text: 'Yes', onPress: () => deleteReservation()}])}>
+            <Pressable onPress={() => Alert.alert("Delete reservation", `Are you sure you want to delete the reservation for ${reservation.hotelName}?`, [{text: 'No', onPress: () => console.log("no")},{text: 'Yes', onPress: async() => {await deleteReservation(); callback();}}])}>
                 <AntDesign name="delete" size={24} color="black" />
             </Pressable>
         </View>

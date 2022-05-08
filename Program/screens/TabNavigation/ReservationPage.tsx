@@ -13,6 +13,7 @@ import generic from "../../styling/generic"
 import { backendUrl } from "../../utils/enviroment"
 import { postData } from "../../utils/APIMethods"
 import { getData } from "./Overview"
+import { getItemAsync } from "expo-secure-store"
 
 export default function ReservationPage({route}: {route: any }){
     // console.log({route})
@@ -48,7 +49,7 @@ export default function ReservationPage({route}: {route: any }){
         inserted = res.rowsAffected === 1
         if(inserted){
             await getReservationId()
-            postHotelReservation()
+            postHotelReservation() 
             navigate("LoadingPage")
         }
     }
@@ -59,7 +60,13 @@ export default function ReservationPage({route}: {route: any }){
         goBack()
     }
 
+    const getMail = async() => {
+        const mail = await getItemAsync("mail")
+        setMail(String(mail))
+    }
+
     useEffect(() => {
+        getMail()
         getReservationId()
     }, [])
 
@@ -86,7 +93,7 @@ export default function ReservationPage({route}: {route: any }){
                             <InputFieldSmall label="First name" placeholder="e.g. John" callback={(value: string) => setFirstName(value)}/>
                             <InputFieldSmall label="Last name" placeholder="e.g. Smith" callback={(value: string) => setLastName(value)}/>
                         </View>
-                        <InputField label="E-mail address" placeholder="e.g. john.smith@gmail.com" password={false} callback={(value: string) => setMail(value)}/>
+                        <InputField label="E-mail address" placeholder="e.g. john.smith@gmail.com" password={false} callback={(value: string) => setMail(value)} value={mail}/>
                     </View>
                 </View>
             </View>

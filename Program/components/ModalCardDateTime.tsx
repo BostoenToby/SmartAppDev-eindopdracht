@@ -6,7 +6,7 @@ import { GenericButton } from "./GenericButton";
 import { Entypo, AntDesign  } from '@expo/vector-icons';
 
 
-export default ({visible, date, onChange, buttonModalCallback, buttonCallback}: {visible: boolean, date: Date, onChange: Function, buttonModalCallback: Function, buttonCallback: Function}) => {
+export default ({title, visible, date, onChange, buttonModalCallback, buttonCallback}: {title: string, visible: boolean, date: Date, onChange: Function, buttonModalCallback: Function, buttonCallback: Function}) => {
     
     return(
         <>
@@ -30,8 +30,8 @@ export default ({visible, date, onChange, buttonModalCallback, buttonCallback}: 
             </Modal>
             <Pressable style={{flexDirection:'row', alignItems: 'center', justifyContent:'center', borderRadius: 5, backgroundColor:'#FFFFFF', width: 100}} onPress={() => buttonCallback()}>
                 <AntDesign name="calendar" size={24} color="black" />
-                <View style={{flexDirection: 'column'}}>
-                    <Text style={{ fontSize: 12 }}>Check-in:</Text>
+                <View style={{flexDirection: 'column', paddingLeft: 4}}>
+                    <Text style={{ fontSize: 12 }}>{title}</Text>
                     <Text style={{ fontSize: 12 }}>{date.toLocaleDateString()}</Text>
                 </View>
             </Pressable>

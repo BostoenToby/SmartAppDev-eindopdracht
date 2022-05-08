@@ -10,18 +10,18 @@ import Register from "./Register";
 export default () => {
     const Stack = createStackNavigator();
     const [user, setUser] = useState<User>()
-    const [resolved, setResolved] = useState<boolean>()
+    // const [resolved, setResolved] = useState<boolean>()
 
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-         // console.log(user)
-         setUser(user as User)
-        }
-        setResolved(true)
-     }, (error => {
-         console.error(error)
-     }))
-    //  if a user is logged in
+    // onAuthStateChanged(auth, (user) => {
+    //     if (user) {
+    //      // console.log(user)
+    //      setUser(user as User)
+    //     }
+    //     setResolved(true)
+    //  }, (error => {
+    //      console.error(error)
+    //  }))
+    // //  if a user is logged in
 
     const screenOptions: StackNavigationOptions = {
         headerShown: false,

@@ -78,8 +78,8 @@ export default ({route}: {route: any}) => {
             </View>
 
                 <View style={[modal.modalContainer, generic.row, generic.spaceBetween]}>
-                    <ModalCardDateTime visible={modalVisibleInCheck} date={incheckDate} onChange={onChangeInCheck} buttonModalCallback={()=>setModalVisibleInCheck(false)} buttonCallback={() => setModalVisibleInCheck(true)}/>
-                    <ModalCardDateTime visible={modalVisibleOutCheck} date={outcheckDate} onChange={onChangeOutCheck} buttonModalCallback={()=>setModalVisibleOutCheck(false)} buttonCallback={() => setModalVisibleOutCheck(true)}/>
+                    <ModalCardDateTime title="Check-in:" visible={modalVisibleInCheck} date={incheckDate} onChange={onChangeInCheck} buttonModalCallback={()=>setModalVisibleInCheck(false)} buttonCallback={() => setModalVisibleInCheck(true)}/>
+                    <ModalCardDateTime title="Check-out:" visible={modalVisibleOutCheck} date={outcheckDate} onChange={onChangeOutCheck} buttonModalCallback={()=>setModalVisibleOutCheck(false)} buttonCallback={() => setModalVisibleOutCheck(true)}/>
                 </View>
             <FlatList data={roomTypes} renderItem={renderRoomType}/>
             <BottomBarHalf returnTitle="Return" returnCallback={() => goBack()}/>

@@ -18,6 +18,7 @@ import {RouteProp}  from '@react-navigation/native'
 export default function DetailPage ({ route }: { route: any }){
     const [hotel] = useState<Hotel>(route.params.hotel)
     const [reviews, setReviews] = useState<Review[]>()
+    const [averageStars, setAverageStars] = useState<number>(0)
     const {navigate, goBack} = useNavigation<StackNavigationProp<ParamListBase>>();
 
     const deleteReservation = async() => {
@@ -33,14 +34,28 @@ export default function DetailPage ({ route }: { route: any }){
         console.log(res.rows._array)
     }
 
-    const renderReview = ({ item }: { item: Review }) => (
-        <ReviewCard review={item}/>
-    )
+    const getAverage = async() => {
+        let averageStars: number = 0
+        let count: number = 0
+        if(reviews)
+        for(let review of reviews){
+            averageStars += review.starRating
+            count += 1
+        }
+        averageStars = averageStars / count
+        setAverageStars(averageStars)
+    }
 
     useEffect(() => {
         getReservations()
         setReviews(hotel.reviews)
+        console.log("average")
+        console.log(averageStars)
     }, [])
+
+    useEffect(() => {
+        getAverage()
+    }, [reviews])
 
     return(
         <SafeAreaView style={generic.fullScreen}>
@@ -54,12 +69,12 @@ export default function DetailPage ({ route }: { route: any }){
                         latitudeDelta: 0.0922,
                         longitudeDelta: 0.0421
                     }}>
-                        <Marker coordinate={{latitude: hotel.latitude, longitude: hotel.longitude}} title={"Howest"} description={"This is a test!"}/>
+                        <Marker coordinate={{latitude: hotel.latitude, longitude: hotel.longitude}} title={hotel.name} description={hotel.description}/>
                     </MapView>
                     <Text style={[generic.ratingTitle, generic.marginHor]}>Rating & reviews</Text>
                     <View style={{flexDirection: 'row', marginHorizontal:Dimensions.get('window').width/20, justifyContent:"space-between"}}>
-                        <Text style={generic.ratingNumber}>⭐</Text>
-                        <View style={generic.row}>
+                        <Text style={generic.ratingNumber}>{averageStars.toFixed(2)}⭐</Text>
+                        {/* <View style={generic.row}>
                             <View>
                                 <Text style={generic.font8}>⭐⭐⭐⭐⭐</Text>
                                 <Text style={generic.font8}>⭐⭐⭐⭐</Text>
@@ -74,7 +89,7 @@ export default function DetailPage ({ route }: { route: any }){
                                 <View style={generic.ratingBar}/>
                                 <View style={generic.ratingBar}/>
                             </View>
-                        </View>
+                        </View> */}
                     </View>
                     <View style={{marginBottom: 60}}>
                         {reviews?.map((val, index) => {

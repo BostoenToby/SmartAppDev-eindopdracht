@@ -7,9 +7,6 @@ import modal from "../styling/modal";
 import { useEffect } from "react";
 
 export default ({visible, title, callbackInput1, label1, placeholder1, callbackInput2, label2, placeholder2, callbackInput3, label3, placeholder3, callbackInput4, label4, placeholder4, callbackCancel, callbackSave, callbackPressButton}: {visible: boolean, title: string, callbackInput1: Function, callbackInput2: Function, callbackInput3: Function, callbackInput4:Function, callbackCancel: Function, callbackSave: Function, callbackPressButton: Function, label1: string, label2: string, label3: string, label4: string, placeholder1: string, placeholder2: string, placeholder3: string, placeholder4: string}) => {
-    useEffect(()=> {
-        // console.log("filter")
-    }, [])
     return(
         <>
             <Modal

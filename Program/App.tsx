@@ -4,7 +4,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import Map from './screens/Map';
-import Reviews from './screens/Reviews';
+import Reviews from './screens/Reservations';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import generic from './styling/generic';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
@@ -21,7 +21,7 @@ import LoadingPage from './screens/TabNavigation/LoadingPage';
 import InlogNavigation from './screens/InlogNavigation';
 
 export default function App() {
-
+  console.disableYellowBox = true;
   const generateAppTable = async(): Promise<void> => {
     const tx: SQLTransaction = await transaction();
     const response: SQLResultSet | void = await statement(

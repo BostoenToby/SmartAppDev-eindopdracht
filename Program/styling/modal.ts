@@ -21,8 +21,8 @@ export default StyleSheet.create({
         backgroundColor: '#FFFFFF'
     },
     modalBoxSmall: {
-        height: Dimensions.get('window').height/10,
-        width: Dimensions.get('window').width/3,
+        height: Dimensions.get('window').height/15,
+        width: Dimensions.get('window').width/4,
         padding: 20,
         borderRadius: 5,
         backgroundColor: '#FFFFFF',

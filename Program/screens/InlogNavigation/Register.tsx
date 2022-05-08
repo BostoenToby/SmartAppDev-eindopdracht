@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Pressable, SafeAreaView, Text, View } from "react-native"
+import { Pressable, SafeAreaView, Task, Text, View } from "react-native"
 import { GenericButton, SilentButton } from "../../components/GenericButton"
 import { InputField } from "../../components/InputField"
 import generic from "../../styling/generic"
@@ -37,7 +37,8 @@ export default () => {
         })
     }
 
-    const registerUser = (): void => {
+    const registerUser = async() => {
+        await checkMail()
         if (newUser.email && newUser.password){
             // console.log('Register')
             createUserWithEmailAndPassword(auth, newUser.email, newUser.password)
@@ -57,7 +58,7 @@ export default () => {
         }
     }
 
-    useEffect(() => {
+    const checkMail = async() => {
         if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/.test(newUser.email)){
             setErrors((currentErrors: any) => {
                 currentErrors.fields.email.hasError = true,
@@ -72,7 +73,19 @@ export default () => {
                 return { ... currentErrors }
             }) 
         }
-    }, [newUser.email])
+    }
+
+    // useEffect(() => {
+    //     checkMail()
+    // }, [newUser.email])
+
+    useEffect(() => {
+        setErrors((currentErrors: any) => {
+            currentErrors.fields.email.hasError = false,
+            currentErrors.fields.email.inlineErrorMessage = ""
+            return { ... currentErrors }
+        }) 
+    }, [])
 
     return (
         <SafeAreaView style={[generic.fullScreen, {justifyContent: 'center', alignItems: 'center'}]}>
@@ -90,7 +103,6 @@ export default () => {
                     </View>
                 ) : null}
                 <InputField label="E-mail" placeholder="john.smith@gmail.com" password={false} callback={(value: string) => setNewUser((u) => {
-                        // @ts-ignore
                         u.email = value
                         return{...u}
                 })} />
@@ -98,7 +110,6 @@ export default () => {
                     <Text style={{color: 'red', fontSize: 12}}>{errors.fields.email.inlineErrorMessage}</Text>
                 ): null}
                 <InputField label="Password" placeholder="somePassword123" password={true} callback={(value: string) => setNewUser((u) => {
-                    // @ts-ignore
                     u.password = value
                     return{...u}
                 })} />
@@ -106,6 +117,10 @@ export default () => {
                     <Text style={{color: 'red', fontSize: 12}}>{errors.fields.password.inlineErrorMessage}</Text>
                 ): null}
                 <View style={{alignItems: 'center'}}><GenericButton text="Login" callback={()=>{registerUser()}} /></View>
+                <View style={{alignItems: 'center', paddingTop: 8, flexDirection:'row', justifyContent: 'center'}}>
+                    <Text style={{paddingRight: 4}}>Already have an account?</Text>
+                    <SilentButton text="Log in" callback={() => navigate("Login")} />
+                </View>
             </View>
         </SafeAreaView>
     )
