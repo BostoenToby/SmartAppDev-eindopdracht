@@ -1,8 +1,6 @@
 import { FlatList } from "react-native";
 import { getData } from "../utils/APIMethods";
 import { backendUrl } from "../utils/enviroment";
-import { useNavigation, ParamListBase } from '@react-navigation/native';
-import { StackNavigationProp } from "@react-navigation/stack";
 import { useEffect, useState } from "react";
 import { getItemAsync } from "expo-secure-store";
 import Reservation from "../interfaces/Reservation";

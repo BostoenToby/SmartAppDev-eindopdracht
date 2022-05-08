@@ -14,11 +14,10 @@ import { FontAwesome } from '@expo/vector-icons';
 
 export default ({route}: {route: any}) => {
     const {goBack} = useNavigation<StackNavigationProp<ParamListBase>>();
-
     const [roomTypes, setRoomTypes] = useState<RoomType[]>(route.params.Hotel.roomTypes)
-    const [namePiece, setNamePiece] = useState<string>()
+    const [namePiece, setNamePiece] = useState<string>("")
     const [incheckDate, setIncheckDate] = useState<Date>(new Date(Date.now()))
-    const [outcheckDate, setOutCheckDate] = useState<Date>(new Date(Date.now()))
+    const [outcheckDate, setOutCheckDate] = useState<Date>(new Date((Date.now())))
     const [modalVisibleInCheck, setModalVisibleInCheck] = useState<boolean>(false)
     const [modalVisibleOutCheck, setModalVisibleOutCheck] = useState<boolean>(false)
 
@@ -36,17 +35,25 @@ export default ({route}: {route: any}) => {
             }
             setRoomTypes(roomTypesFound)
         } else {
+            console.log("nothing")
             setRoomTypes(route.params.Hotel.roomTypes)
         }
     }
 
     const onChangeInCheck = (event: any, selectedValue: Date | undefined) => {
-        const currentDate = selectedValue || new Date();
+        let currentDate = selectedValue || new Date();
+        if(currentDate <= new Date()){
+            currentDate = new Date()
+        }
         setIncheckDate(() => currentDate)
     }
 
     const onChangeOutCheck = (event: any, selectedValue: Date | undefined) => {
-        const currentDate = selectedValue || new Date();
+        let currentDate = selectedValue || new Date();
+        if(currentDate <= new Date()){
+            currentDate = new Date()
+            currentDate.setDate(currentDate.getDate()+1)
+        } 
         setOutCheckDate(currentDate)
     }
 
@@ -55,15 +62,20 @@ export default ({route}: {route: any}) => {
         const res: SQLResultSet = await statement(tx, 'UPDATE reservation3 SET incheckDate = (?), outcheckDate = (?) WHERE id=(?)', [incheckDate.toLocaleDateString(), outcheckDate.toLocaleDateString(), route.params.id])
     }
 
-    const getReservations = async() => {
-        const tx: SQLTransaction = await transaction()
-        const res: SQLResultSet = await statement(tx, "SELECT * FROM reservation3 WHERE id = (?)", [route.params.id])
-    }
-
     useEffect(() => {
         putReservationDb()
-        getReservations()
     }, [incheckDate, outcheckDate])
+
+    useEffect(() => {
+        console.log(namePiece)
+        applyFilters()
+    }, [namePiece])
+
+    useEffect(() => {
+        let tommorow: Date = new Date(Date.now())
+        tommorow.setDate(tommorow.getDate() + 1)
+        setOutCheckDate(tommorow)
+    }, [])
 
     return(
         <SafeAreaView style={generic.fullScreen}>

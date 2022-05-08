@@ -17,6 +17,11 @@ export default function ReservationPage({route}: {route: any }){
     const [firstName, setFirstName] = useState<string>();
     const [lastName, setLastName] = useState<string>();
     const [mail, setMail] = useState<string>();
+    const [errors, setErrors] = useState<any>({
+            firstNameError: "",
+            lastNameError: "",
+            mailError: ""
+    })
 
     const { navigate, goBack } = useNavigation<StackNavigationProp<ParamListBase>>();
 
@@ -34,15 +39,58 @@ export default function ReservationPage({route}: {route: any }){
         })
     }
 
+    const checkInput = async() => {
+        console.log(firstName)
+        console.log(lastName)
+        console.log(mail)
+        if(firstName == undefined || String(firstName).length < 2) {
+            setErrors((currentErrors: any) => {
+                currentErrors.firstNameError = "Must be at least 2 letters"
+                return { ...currentErrors }
+            })
+        } else {
+            setErrors((currentErrors: any) => {
+                currentErrors.firstNameError = ""
+                return { ...currentErrors }
+            })
+        }
+        if(lastName == undefined || String(lastName).length < 2) {
+            setErrors((currentErrors: any) => {
+                currentErrors.lastNameError = "Must be at least 2 letters"
+                return { ...currentErrors }
+            })
+        } else {
+            setErrors((currentErrors: any) => {
+                currentErrors.lastNameError = ""
+                return { ...currentErrors }
+            })
+        }
+        if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/.test(String(mail))){
+            setErrors((currentErrors: any) => {
+                currentErrors.mailError = "The mail address must be valid"
+                return { ... currentErrors }
+            })
+        } else {
+            setErrors((currentErrors: any) => {
+                currentErrors.mailError = ""
+                return { ...currentErrors }
+            })
+        }
+    }
+
     const putReservationDb = async() => {
-        let inserted: boolean = false
-        const tx: SQLTransaction = await transaction()
-        const res: SQLResultSet = await statement(tx, "UPDATE reservation3 SET firstName=(?) , lastName=(?) , mail=(?) WHERE id=(?)", [firstName, lastName, mail, route.params.id])
-        inserted = res.rowsAffected === 1
-        if(inserted){
-            await getReservationId()
-            postHotelReservation() 
-            navigate("LoadingPage")
+        await checkInput()
+        console.log({errors})
+        if(errors.firstNameError == "" && errors.lastNameError == "" && errors.mailError == ""){
+            let inserted: boolean = false
+            const tx: SQLTransaction = await transaction()
+            const res: SQLResultSet = await statement(tx, "UPDATE reservation3 SET firstName=(?) , lastName=(?) , mail=(?) WHERE id=(?)", [firstName, lastName, mail, route.params.id])
+            inserted = res.rowsAffected === 1
+            if(inserted){
+                await getReservationId()
+                postHotelReservation() 
+                navigate("LoadingPage")
+            }
         }
     }
 
@@ -82,10 +130,23 @@ export default function ReservationPage({route}: {route: any }){
                 <View style={generic.reservationContainer}>
                     <View style={generic.inputContainer}>
                         <View style ={generic.inputRow}>
-                            <InputFieldSmall label="First name" placeholder="e.g. John" callback={(value: string) => setFirstName(value)}/>
-                            <InputFieldSmall label="Last name" placeholder="e.g. Smith" callback={(value: string) => setLastName(value)}/>
+                            <View style = {{flexDirection: 'column'}}>
+                                <InputFieldSmall label="First name" placeholder="e.g. John" callback={(value: string) => setFirstName(value)}/>
+                                {errors.firstNameError? (
+                                <Text style={{color: 'red', fontSize: 10}}>{errors.firstNameError}</Text>
+                                ): null}
+                            </View>
+                            <View style ={{flexDirection: 'column'}}>
+                                <InputFieldSmall label="Last name" placeholder="e.g. Smith" callback={(value: string) => setLastName(value)}/>
+                                {errors.lastNameError? (
+                                <Text style={{color: 'red', fontSize: 10}}>{errors.lastNameError}</Text>
+                                ): null}
+                            </View>
                         </View>
                         <InputField label="E-mail address" placeholder="e.g. john.smith@gmail.com" password={false} callback={(value: string) => setMail(value)} value={mail}/>
+                        {errors.mailError? (
+                        <Text style={{color: 'red', fontSize: 12}}>{errors.mailError}</Text>
+                        ): null}
                     </View>
                 </View>
             </View>

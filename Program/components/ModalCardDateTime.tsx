@@ -6,7 +6,6 @@ import { AntDesign  } from '@expo/vector-icons';
 
 
 export default ({title, visible, date, onChange, buttonModalCallback, buttonCallback}: {title: string, visible: boolean, date: Date, onChange: Function, buttonModalCallback: Function, buttonCallback: Function}) => {
-    
     return(
         <>
             <Modal

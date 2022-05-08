@@ -13,7 +13,7 @@ export const InputFieldSmall = ({label, placeholder, callback}: {label: string, 
     return(
         <View style={{flexDirection:"column", paddingVertical: 10}}>
             <Text style={{paddingBottom: 4}}>{label}</Text>
-            <TextInput style={{height: 30, width: Dimensions.get("window").width/20*8 ,borderWidth: 1, borderColor: "#D3D3D3", borderRadius: 5}} placeholder={placeholder} onChangeText={callback}/>
+            <TextInput style={{height: 30, width: Dimensions.get("window").width/20*8 ,borderWidth: 1, borderColor: "#D3D3D3", borderRadius: 5, paddingLeft: 4}} placeholder={placeholder} onChangeText={callback}/>
         </View>
     )
 }
