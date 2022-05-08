@@ -8,7 +8,7 @@ import { auth } from "../../utils/Firebase";
 import { InputField } from "../../components/InputField";
 import { GenericButton, SilentButton } from "../../components/GenericButton";
 import generic from "../../styling/generic";
-import {getItemAsync, deleteItemAsync, setItemAsync, WHEN_UNLOCKED_THIS_DEVICE_ONLY} from 'expo-secure-store'
+import { deleteItemAsync, setItemAsync } from 'expo-secure-store'
 import { Entypo } from '@expo/vector-icons'; 
 
 export default () => {
@@ -41,9 +41,7 @@ export default () => {
 
     const login = async() => {
         await checkMail()
-        // TODO: kijken of er al ingelogd geweest is --> secure storage
         await setItemAsync("mail", userCredentials.email);
-        // await setItemAsync(userCredentials.email, userCredentials.password);
         signInWithEmailAndPassword(auth, userCredentials.email, userCredentials.password).then((u: UserCredential) => {
             setUser(u.user) 
             const mail = userCredentials.email  
@@ -102,7 +100,6 @@ export default () => {
                     </View>
                 ) : null}                
                 <InputField label="E-mail" placeholder="john.smith@gmail.com" password={false} callback={(value: string) => setUserCredentials((u) => {
-                    // @ts-ignore
                     u.email = value
                     return{...u}
                 })} />
@@ -110,7 +107,6 @@ export default () => {
                     <Text style={{color: 'red', fontSize: 12}}>{errors.fields.email.inlineErrorMessage}</Text>
                 ): null}
                 <InputField label="Password" placeholder="somePassword123" password={true} callback={(value: string) => setUserCredentials((u) => {
-                    // @ts-ignore
                     u.password = value
                     return{...u}
                 })} />

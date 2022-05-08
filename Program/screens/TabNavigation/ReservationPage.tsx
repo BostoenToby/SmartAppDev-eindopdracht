@@ -1,22 +1,18 @@
 import { StackNavigationProp } from "@react-navigation/stack"
 import { SQLResultSet, SQLTransaction } from "expo-sqlite"
 import { useEffect, useState } from "react"
-import { Dimensions, Image, Pressable, SafeAreaView, Text, TextInput, View } from "react-native"
-import {GenericButton} from "../../components/GenericButton"
+import { Image, SafeAreaView, Text, View } from "react-native"
 import { InputField, InputFieldSmall } from "../../components/InputField"
 import Reservation from "../../interfaces/Reservation"
-import RoomType from "../../interfaces/RoomType"
 import { statement, transaction } from "../../utils/db"
 import { useNavigation, ParamListBase } from '@react-navigation/native';
 import BottomBar from "../../components/BottomBar"
 import generic from "../../styling/generic"
 import { backendUrl } from "../../utils/enviroment"
 import { postData } from "../../utils/APIMethods"
-import { getData } from "./Overview"
 import { getItemAsync } from "expo-secure-store"
 
 export default function ReservationPage({route}: {route: any }){
-    // console.log({route})
     const [reservation, setReservation] = useState<Reservation>()
     const [firstName, setFirstName] = useState<string>();
     const [lastName, setLastName] = useState<string>();
@@ -27,8 +23,6 @@ export default function ReservationPage({route}: {route: any }){
     const getReservationId = async() => {
         const tx: SQLTransaction = await transaction()
         const res: SQLResultSet = await statement(tx, "SELECT * FROM reservation3 WHERE id=(?)", [route.params.id])
-        console.log("end")
-        console.log(res.rows._array)
         setReservation(res.rows._array[0])
     }
 
@@ -37,9 +31,7 @@ export default function ReservationPage({route}: {route: any }){
         const res: SQLResultSet = await statement(tx, "SELECT hotelName, roomTypeName, incheckDate, outcheckDate, price, firstName, lastName, mail, image FROM reservation3 WHERE id=(?)", [route.params.id])
         const reservation: Reservation = res.rows._array[0]
         const response = postData(`${backendUrl}/reservation`, reservation).then((data) => {
-            // console.log(data)
         })
-        // console.log(`${backendUrl}/reservation`)
     }
 
     const putReservationDb = async() => {

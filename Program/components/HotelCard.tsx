@@ -1,19 +1,16 @@
-import { Text, View, Image, Button, Alert, TouchableOpacity, Pressable, ImageSourcePropType } from "react-native"
+import { Text, View, Image, Pressable } from "react-native"
 import Hotel from "../interfaces/Hotel"
 import { Feather } from '@expo/vector-icons'; 
 import { useNavigation, ParamListBase } from '@react-navigation/native';
-import { createStackNavigator, StackNavigationProp } from "@react-navigation/stack"
-import {GenericButton} from "./GenericButton";
+import { StackNavigationProp } from "@react-navigation/stack"
 import { SQLResultSet, SQLTransaction } from "expo-sqlite";
 import { statement, transaction } from "../utils/db";
 import uuid from 'react-native-uuid';
-import { useEffect, useState } from "react";
 
 export default ({ hotel }: { hotel: Hotel }) => {
     const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>();
 
     const AddReservationDb = async() => {
-        console.log(hotel.image)
         let inserted: boolean = false
         let Uuid: string = String(uuid.v4())
         const tx: SQLTransaction = await transaction()

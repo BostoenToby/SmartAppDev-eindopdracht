@@ -1,21 +1,12 @@
-import { SQLResultSet, SQLTransaction } from "expo-sqlite";
-import { useCallback, useEffect, useState } from "react";
-import { Dimensions, FlatList, Modal, Pressable, SafeAreaView, Text, TextInput, View } from "react-native";
+import { useEffect, useState } from "react";
+import { FlatList, Pressable, SafeAreaView, TextInput, View } from "react-native";
 import HotelCard from "../../components/HotelCard";
 import Hotel from "../../interfaces/Hotel";
 import generic from "../../styling/generic";
-import { statement, transaction } from "../../utils/db";
-import { Entypo, FontAwesome } from '@expo/vector-icons';
-import modal from "../../styling/modal";
-import { GenericButton } from "../../components/GenericButton";
-import { InputFieldSmall, InputFieldSmallHorizontal, InputFieldXS } from "../../components/InputField";
+import { FontAwesome } from '@expo/vector-icons';
 import { backendUrl } from "../../utils/enviroment";
 import Filter from "../../components/Filter";
 import FilterTag, { FilterTagDouble } from "../../components/FilterTag";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { useNavigation, ParamListBase } from '@react-navigation/native';
-import {getItemAsync, deleteItemAsync, setItemAsync, WHEN_UNLOCKED_THIS_DEVICE_ONLY} from 'expo-secure-store'
-import useForceUpdate from "use-force-update";
 import { getData } from "../../utils/APIMethods";
 
 export default function OverView({route}: {route: any}){
@@ -162,9 +153,6 @@ export default function OverView({route}: {route: any}){
                             break;
 
                     case "Price":
-                        console.log("price")
-                        console.log(pricePerNightMin)
-                        console.log(pricePerNightMax)
                         if(pricePerNightMax != 10000 || pricePerNightMin != 0)
                             filterValue = pricePerNightMin
                             filterValue2 = pricePerNightMax
@@ -182,13 +170,9 @@ export default function OverView({route}: {route: any}){
                             
                 }
                 if(filterValue != "" && filterValue != 0 && val!="Price"){
-                    console.log("single")
                     return(<FilterTag filter={val} filterValue={filterValue} callback={callback}/>)
                 }
                 else if (val=="Price" &&(filterValue!= 0 || filterValue2!= 10000)){
-                    console.log("double")
-                    console.log(filterValue)
-                    console.log(`filterValue2 --> ${filterValue2}`)
                     return(<FilterTagDouble filter={val} filterValue1={filterValue} filterValue2={filterValue2} callback={callback}/>)
                 }
                 else

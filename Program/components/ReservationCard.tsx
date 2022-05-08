@@ -1,11 +1,8 @@
-import { useEffect, useState } from "react";
 import { Alert, Image, Pressable, Text, View } from "react-native"
 import Reservation from "../interfaces/Reservation"
-import { deleteData, getData } from "../utils/APIMethods";
+import { deleteData } from "../utils/APIMethods";
 import { backendUrl } from "../utils/enviroment";
 import { AntDesign } from '@expo/vector-icons'; 
-import { SQLResultSet, SQLTransaction } from "expo-sqlite";
-import { statement, transaction } from "../utils/db";
 
 export default ({reservation, callback}: {reservation: Reservation, callback: Function}) => {
     const deleteReservation = async() => {

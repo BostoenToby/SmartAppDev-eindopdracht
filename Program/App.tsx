@@ -1,18 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import Map from './screens/Map';
-import Reviews from './screens/Reservations';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import generic from './styling/generic';
-import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
 import TabNavigation from './screens/TabNavigation';
 import DetailPage from './screens/TabNavigation/DetailPage';
 import RoomTypePage from './screens/TabNavigation/RoomTypePage';
-import StackNavigation from './screens/TabNavigation';
 import ReservationPage from './screens/TabNavigation/ReservationPage';
 import { SQLResultSet, SQLTransaction } from 'expo-sqlite';
 import { statement, transaction } from './utils/db';

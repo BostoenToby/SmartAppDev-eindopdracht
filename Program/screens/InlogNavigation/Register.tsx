@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Pressable, SafeAreaView, Task, Text, View } from "react-native"
+import { Pressable, SafeAreaView, Text, View } from "react-native"
 import { GenericButton, SilentButton } from "../../components/GenericButton"
 import { InputField } from "../../components/InputField"
 import generic from "../../styling/generic"
@@ -40,7 +40,6 @@ export default () => {
     const registerUser = async() => {
         await checkMail()
         if (newUser.email && newUser.password){
-            // console.log('Register')
             createUserWithEmailAndPassword(auth, newUser.email, newUser.password)
             .then((user: UserCredential) => {
                 setUser(user.user)
@@ -74,10 +73,6 @@ export default () => {
             }) 
         }
     }
-
-    // useEffect(() => {
-    //     checkMail()
-    // }, [newUser.email])
 
     useEffect(() => {
         setErrors((currentErrors: any) => {

@@ -1,15 +1,11 @@
 import { Text, View, Image, Button, Alert, TouchableOpacity, Pressable } from "react-native"
-import Hotel from "../interfaces/Hotel"
-import { Feather } from '@expo/vector-icons'; 
 import { useNavigation, ParamListBase } from '@react-navigation/native';
-import { createStackNavigator, StackNavigationProp } from "@react-navigation/stack"
+import { StackNavigationProp } from "@react-navigation/stack"
 import {GenericButton} from "./GenericButton";
 import RoomType from "../interfaces/RoomType";
 import { MaterialCommunityIcons, MaterialIcons, Entypo, AntDesign, SimpleLineIcons } from '@expo/vector-icons';
-import ReservationPage from "../screens/TabNavigation/ReservationPage"
 import { SQLResultSet, SQLTransaction } from "expo-sqlite";
 import { statement, transaction } from "../utils/db";
-import { useState } from "react";
 
 export default ({ id, roomType }: { id: string, roomType: RoomType }) => {
     const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>();

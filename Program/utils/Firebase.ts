@@ -1,7 +1,6 @@
 import { FirebaseApp, FirebaseOptions, initializeApp } from 'firebase/app'
 import { Auth, getAuth } from 'firebase/auth'
 
-// .env file maken en daar de values inplaatsen --> zodat deze niet in git staan
 const firebaseConfig: FirebaseOptions = {
     apiKey: "AIzaSyAdn_KDCuioYgkuDkzwGo1C2hI5d2QZuQc",
     authDomain: "hotelapp-1a7f1.firebaseapp.com",
@@ -12,4 +11,4 @@ const firebaseConfig: FirebaseOptions = {
 }
 
 export const app: FirebaseApp = initializeApp(firebaseConfig)
-export const auth: Auth = getAuth() // Authentication provider
+export const auth: Auth = getAuth()

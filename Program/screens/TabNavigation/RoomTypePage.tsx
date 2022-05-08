@@ -2,9 +2,7 @@ import { useEffect, useState } from "react"
 import { FlatList, SafeAreaView, Text, TextInput, View, Modal, Pressable, TouchableWithoutFeedback, Dimensions } from "react-native"
 import RoomTypeCard from "../../components/RoomTypeCard"
 import RoomType from "../../interfaces/RoomType"
-import DateTimePicker from '@react-native-community/datetimepicker';
 import modal from "../../styling/modal";
-import { GenericButton } from "../../components/GenericButton";
 import { SQLResultSet, SQLTransaction } from "expo-sqlite";
 import { statement, transaction } from "../../utils/db";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -12,7 +10,7 @@ import { useNavigation, ParamListBase } from '@react-navigation/native';
 import generic from "../../styling/generic";
 import BottomBarHalf from "../../components/BottomBarHalf";
 import ModalCardDateTime from "../../components/ModalCardDateTime";
-import { Entypo, FontAwesome } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 
 export default ({route}: {route: any}) => {
     const {goBack} = useNavigation<StackNavigationProp<ParamListBase>>();
@@ -60,7 +58,6 @@ export default ({route}: {route: any}) => {
     const getReservations = async() => {
         const tx: SQLTransaction = await transaction()
         const res: SQLResultSet = await statement(tx, "SELECT * FROM reservation3 WHERE id = (?)", [route.params.id])
-        console.log(res.rows._array)
     }
 
     useEffect(() => {

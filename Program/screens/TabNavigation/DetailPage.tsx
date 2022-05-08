@@ -5,15 +5,12 @@ import ReviewCard from "../../components/ReviewCard";
 import Hotel from "../../interfaces/Hotel";
 import Review from "../../interfaces/Review";
 import map from "../../styling/map";
-import { getData } from "./Overview";
 import { useNavigation, ParamListBase } from '@react-navigation/native';
 import { StackNavigationProp } from "@react-navigation/stack";
-import {GenericButton} from "../../components/GenericButton";
 import { SQLResultSet, SQLTransaction } from "expo-sqlite";
 import { statement, transaction } from "../../utils/db";
 import generic from "../../styling/generic";
 import BottomBar from "../../components/BottomBar";
-import {RouteProp}  from '@react-navigation/native'
 
 export default function DetailPage ({ route }: { route: any }){
     const [hotel] = useState<Hotel>(route.params.hotel)
@@ -25,13 +22,11 @@ export default function DetailPage ({ route }: { route: any }){
         const tx: SQLTransaction = await transaction()
         const res: SQLResultSet = await statement(tx, 'DELETE FROM reservation3 WHERE id = (?)', [route.params.id])
         goBack()
-        // navigate("Overview")
     }
 
     const getReservations = async() => {
         const tx: SQLTransaction = await transaction()
         const res: SQLResultSet = await statement(tx, "SELECT * FROM reservation3 WHERE id = (?)", [route.params.id])
-        console.log(res.rows._array)
     }
 
     const getAverage = async() => {
@@ -49,8 +44,6 @@ export default function DetailPage ({ route }: { route: any }){
     useEffect(() => {
         getReservations()
         setReviews(hotel.reviews)
-        console.log("average")
-        console.log(averageStars)
     }, [])
 
     useEffect(() => {
@@ -74,22 +67,6 @@ export default function DetailPage ({ route }: { route: any }){
                     <Text style={[generic.ratingTitle, generic.marginHor]}>Rating & reviews</Text>
                     <View style={{flexDirection: 'row', marginHorizontal:Dimensions.get('window').width/20, justifyContent:"space-between"}}>
                         <Text style={generic.ratingNumber}>{averageStars.toFixed(2)}⭐</Text>
-                        {/* <View style={generic.row}>
-                            <View>
-                                <Text style={generic.font8}>⭐⭐⭐⭐⭐</Text>
-                                <Text style={generic.font8}>⭐⭐⭐⭐</Text>
-                                <Text style={generic.font8}>⭐⭐⭐</Text>
-                                <Text style={generic.font8}>⭐⭐</Text>
-                                <Text style={generic.font8}>⭐</Text>
-                            </View>
-                            <View>
-                                <View style={generic.ratingBar}/>
-                                <View style={generic.ratingBar}/>
-                                <View style={generic.ratingBar}/>
-                                <View style={generic.ratingBar}/>
-                                <View style={generic.ratingBar}/>
-                            </View>
-                        </View> */}
                     </View>
                     <View style={{marginBottom: 60}}>
                         {reviews?.map((val, index) => {

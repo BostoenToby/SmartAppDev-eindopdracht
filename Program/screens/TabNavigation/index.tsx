@@ -1,12 +1,6 @@
 import { BottomTabHeaderProps, BottomTabNavigationOptions, createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createStackNavigator, StackNavigationOptions } from "@react-navigation/stack";
-import HotelCard from "../../components/HotelCard"
-import Hotel from "../../interfaces/Hotel"
-import DetailPage from "./DetailPage";
 import OverView from "./Overview";
-import RoomTypePage from "./RoomTypePage";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { ParamListBase, RouteProp } from '@react-navigation/native';
 import Map from "../Map";
 import Reservation from "../Reservations";
 import { ComponentProps } from 'react';
@@ -38,7 +32,6 @@ export default () => {
             <Tab.Screen name="Overview" component={OverView} />
             <Tab.Screen name="Map" component={Map} />
             <Tab.Screen name="Reservation" component={() => <Reservation route={{"render": false}}/> } />
-            {/* <Tab.Screen name="Reservation" component={Reservation} /> */}
       </Tab.Navigator>
     )
 }

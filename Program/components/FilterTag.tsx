@@ -1,5 +1,5 @@
 import { Pressable, Text, View } from "react-native"
-import { Entypo, FontAwesome } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 import generic from "../styling/generic";
 
 export default({filter, filterValue, callback}: {filter: string, filterValue:string|number, callback: any}) => {

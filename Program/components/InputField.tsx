@@ -1,4 +1,4 @@
-import { Dimensions, Text, TextInput, TextInputChangeEventData, View } from "react-native"
+import { Dimensions, Text, TextInput, View } from "react-native"
 
 export const InputField = ({label, placeholder, callback, password, value}: {label: string, placeholder:string, callback: any, password: boolean, value?:string}) => {
     return(

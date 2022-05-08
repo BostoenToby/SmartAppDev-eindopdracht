@@ -1,9 +1,8 @@
 import { Modal, Platform, Pressable, Text, View } from "react-native"
 import modal from "../styling/modal"
-import DateTimePicker, { AndroidEvent } from '@react-native-community/datetimepicker';
-import generic from "../styling/generic";
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { GenericButton } from "./GenericButton";
-import { Entypo, AntDesign  } from '@expo/vector-icons';
+import { AntDesign  } from '@expo/vector-icons';
 
 
 export default ({title, visible, date, onChange, buttonModalCallback, buttonCallback}: {title: string, visible: boolean, date: Date, onChange: Function, buttonModalCallback: Function, buttonCallback: Function}) => {

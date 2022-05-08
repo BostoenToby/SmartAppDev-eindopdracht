@@ -1,5 +1,5 @@
 import { deleteItemAsync, getItemAsync } from "expo-secure-store"
-import { Alert, Modal, Pressable, Text, TouchableOpacity, View } from "react-native"
+import { Modal, Pressable, Text, TouchableOpacity, View } from "react-native"
 import navHeader from "../styling/navHeader"
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState } from "react";

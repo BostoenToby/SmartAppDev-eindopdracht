@@ -1,11 +1,9 @@
-import { openDatabase, SQLError, SQLResultSet, SQLStatementCallback, SQLStatementErrorCallback, SQLTransaction, SQLTransactionCallback, WebSQLDatabase } from 'expo-sqlite'
+import { openDatabase, SQLError, SQLResultSet, SQLTransaction, WebSQLDatabase } from 'expo-sqlite'
 
 const DATABASE_NAME: string = 'hotel'
 
 export const transaction = (name: string = DATABASE_NAME): Promise<SQLTransaction> => {
     const db: WebSQLDatabase = openDatabase(name)
-
-    // #2 Maak een transaction aan
     return new Promise((resolve, reject) => 
         db.transaction(
             (tx: SQLTransaction) => resolve(tx), 
@@ -19,10 +17,10 @@ export const statement = (tx: SQLTransaction, sql: string, params?: any[] | unde
         tx.executeSql(
             sql, 
             params, 
-            (tx: SQLTransaction, res: SQLResultSet) => resolve(res), //als de query succesfull is 
-            (tx: SQLTransaction, error: SQLError) => { //als de query mislukt
+            (tx: SQLTransaction, res: SQLResultSet) => resolve(res),
+            (tx: SQLTransaction, error: SQLError) => {
                 reject(error)
-                return false //return false --> vereiste van transaction callback
+                return false
             },
         )
     })

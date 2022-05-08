@@ -1,5 +1,4 @@
 export async function getData(url=''): Promise<any>{
-    // header meegeven voor JWT
     const response = await fetch(url)
     return await response.json()
 }
