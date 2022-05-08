@@ -40,7 +40,7 @@ export default function Reviews ({route}: {route: any}) {
 
     return (
         <SafeAreaView>
-            <FlatList style={{marginBottom:54}} data={reservations} 
+            <FlatList data={reservations} 
             renderItem={renderReservations}/>
         </SafeAreaView>
     )
