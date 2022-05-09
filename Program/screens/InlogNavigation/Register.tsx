@@ -9,6 +9,7 @@ import { useAuth } from "../../utils/AuthContext"
 import { createUserWithEmailAndPassword, UserCredential } from "firebase/auth"
 import { auth } from "../../utils/Firebase"
 import { Entypo } from '@expo/vector-icons'; 
+import error from "../../styling/error"
 
 export default () => {
     const [newUser, setNewUser] = useState({
@@ -87,10 +88,10 @@ export default () => {
             <Text style={generic.title}>Register</Text>
             <View style={{backgroundColor: '#FFFFFF', padding: 20}}>
                 {(errors.generic.title && errors.generic.message) ? (
-                    <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: 8, borderRadius: 5, backgroundColor: '#FFFFFF', borderColor: 'red', maxWidth: 300}}>
+                    <View style={error.errorBox}>
                         <View>
-                            <Text style={{fontWeight: '600', color: 'red'}}>{errors.generic.title}</Text>
-                            <Text style={{color: 'red'}}>{errors.generic.message}</Text>
+                            <Text style={error.errorTitle}>{errors.generic.title}</Text>
+                            <Text style={error.text}>{errors.generic.message}</Text>
                         </View>
                         <Pressable onPress={discardErrorMessage}>
                             <Entypo name="cross" size={24} color="red" />
@@ -102,14 +103,14 @@ export default () => {
                         return{...u}
                 })} />
                 {errors.fields.email.inlineErrorMessage ? (
-                    <Text style={{color: 'red', fontSize: 12}}>{errors.fields.email.inlineErrorMessage}</Text>
+                    <Text style={error.text}>{errors.fields.email.inlineErrorMessage}</Text>
                 ): null}
                 <InputField label="Password" placeholder="somePassword123" password={true} callback={(value: string) => setNewUser((u) => {
                     u.password = value
                     return{...u}
                 })} />
                 {errors.fields.password.inlineErrorMessage ? (
-                    <Text style={{color: 'red', fontSize: 12}}>{errors.fields.password.inlineErrorMessage}</Text>
+                    <Text style={error.text}>{errors.fields.password.inlineErrorMessage}</Text>
                 ): null}
                 <View style={{alignItems: 'center'}}><GenericButton text="Login" callback={()=>{registerUser()}} /></View>
                 <View style={{alignItems: 'center', paddingTop: 8, flexDirection:'row', justifyContent: 'center'}}>

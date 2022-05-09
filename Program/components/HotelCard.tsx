@@ -6,6 +6,8 @@ import { StackNavigationProp } from "@react-navigation/stack"
 import { SQLResultSet, SQLTransaction } from "expo-sqlite";
 import { statement, transaction } from "../utils/db";
 import uuid from 'react-native-uuid';
+import hotelStyles from "../styling/hotelStyles";
+import generic from "../styling/generic";
 
 export default ({ hotel }: { hotel: Hotel }) => {
     const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>();
@@ -20,11 +22,11 @@ export default ({ hotel }: { hotel: Hotel }) => {
     }
 
     return(
-        <View style={{flexDirection: "row", height: 120, width:"auto", marginVertical: 5, paddingHorizontal: 5, borderRadius: 5, backgroundColor:"#FFFFFF", justifyContent:"space-between", alignItems: "center", marginHorizontal: 12}}>
-            <Image style={{height: 100, width: 100, borderRadius:5}} source={{uri: hotel.image}}/>
+        <View style={hotelStyles.hotelCard}>
+            <Image style={hotelStyles.image} source={{uri: hotel.image}}/>
             <View style={{position:"absolute", left: 120}}>
                 <View style={{flexDirection:"column", alignItems:"flex-start"}}>
-                    <Text style={{fontSize: 20, fontWeight: 'bold', paddingVertical: 10}}>{hotel.name}</Text>
+                    <Text style={hotelStyles.hotelTitle}>{hotel.name}</Text>
                     <Text style={{paddingVertical: 7}}>{hotel.starRating}⭐</Text>
                     <Text style={{paddingVertical: 7}}>
                         <Feather name="map-pin" size={12} color="#0084ff" />
@@ -33,7 +35,7 @@ export default ({ hotel }: { hotel: Hotel }) => {
                 </View>
             </View>
             <View style={{flexDirection:"column", justifyContent:"space-between", alignItems:"center"}}>
-                <Pressable style={{width: 80, height: 35, borderRadius: 20, backgroundColor: "#0084ff", justifyContent: "center", alignItems: "center"}} onPress={() => {
+                <Pressable style={generic.button} onPress={() => {
                     AddReservationDb()
                 }}>
                     <Text style={{color:"#FFFFFF"}}>See details</Text>

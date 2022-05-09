@@ -16,5 +16,12 @@ export default StyleSheet.create({
         marginVertical: 10, 
         marginHorizontal: Dimensions.get('window').width/20, 
         borderRadius:5
+    },
+    markerTitle: {
+        fontSize: 20,
+        fontWeight: '600'
+    },
+    markerDescription: {
+        width: 300
     }
 })

@@ -3,6 +3,7 @@ import Reservation from "../interfaces/Reservation"
 import { deleteData } from "../utils/APIMethods";
 import { backendUrl } from "../utils/enviroment";
 import { AntDesign } from '@expo/vector-icons'; 
+import hotelStyles from "../styling/hotelStyles";
 
 export default ({reservation, callback}: {reservation: Reservation, callback: Function}) => {
     const deleteReservation = async() => {
@@ -10,10 +11,10 @@ export default ({reservation, callback}: {reservation: Reservation, callback: Fu
     }
 
     return(
-        <View style={{flexDirection: "row", height: 120, width:"auto", marginVertical: 5, paddingHorizontal: 5, borderRadius: 5, backgroundColor:"#FFFFFF", justifyContent:"space-between", alignItems: "center", marginHorizontal: 12}}>
-            <Image style={{height: 100, width: 100, borderRadius: 5}} source={{uri: reservation.image}}/>
+        <View style={hotelStyles.hotelCard}>
+            <Image style={hotelStyles.image} source={{uri: reservation.image}}/>
             <View style={{flexDirection: 'column'}}>
-                <Text style={{fontSize: 20, paddingBottom: 10, fontWeight: 'bold'}}>{reservation.hotelName}</Text>
+                <Text style={hotelStyles.hotelTitle}>{reservation.hotelName}</Text>
                 <Text>Room: {reservation.roomTypeName}</Text>
                 <Text>Dates: {reservation.incheckDate} / {reservation.outcheckDate}</Text>
             </View>

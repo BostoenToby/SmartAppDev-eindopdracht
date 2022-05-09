@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { FlatList, SafeAreaView, Text, TextInput, View, Modal, Pressable, TouchableWithoutFeedback, Dimensions } from "react-native"
+import { FlatList, SafeAreaView, TextInput, View, Pressable } from "react-native"
 import RoomTypeCard from "../../components/RoomTypeCard"
 import RoomType from "../../interfaces/RoomType"
 import modal from "../../styling/modal";
@@ -35,7 +35,6 @@ export default ({route}: {route: any}) => {
             }
             setRoomTypes(roomTypesFound)
         } else {
-            console.log("nothing")
             setRoomTypes(route.params.Hotel.roomTypes)
         }
     }
@@ -44,8 +43,16 @@ export default ({route}: {route: any}) => {
         let currentDate = selectedValue || new Date();
         if(currentDate <= new Date()){
             currentDate = new Date()
+            setIncheckDate(currentDate)
         }
-        setIncheckDate(() => currentDate)
+        else if(currentDate >= outcheckDate){
+            let outcheck = currentDate
+            outcheck.setDate(currentDate.getDate() + 1)
+            currentDate.setDate(outcheck.getDate() - 1)
+            setOutCheckDate(outcheck)
+        } else {
+            setIncheckDate(currentDate)
+        }
     }
 
     const onChangeOutCheck = (event: any, selectedValue: Date | undefined) => {
@@ -53,7 +60,11 @@ export default ({route}: {route: any}) => {
         if(currentDate <= new Date()){
             currentDate = new Date()
             currentDate.setDate(currentDate.getDate()+1)
-        } 
+        }
+        if(currentDate <= incheckDate){
+            let incheck = incheckDate
+            currentDate.setDate(incheck.getDate() + 1)
+        }
         setOutCheckDate(currentDate)
     }
 
@@ -67,7 +78,6 @@ export default ({route}: {route: any}) => {
     }, [incheckDate, outcheckDate])
 
     useEffect(() => {
-        console.log(namePiece)
         applyFilters()
     }, [namePiece])
 

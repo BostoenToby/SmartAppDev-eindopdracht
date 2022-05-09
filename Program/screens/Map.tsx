@@ -31,8 +31,8 @@ export default function Map () {
                     return(<Marker key={index} coordinate={{latitude: val.latitude, longitude: val.longitude}} title={val.name} description={val.description} onCalloutPress={() => {getParent()?.navigate("DetailPage", {hotel: hotels[index]})}}>
                                 <Callout>
                                     <View style={{padding: 5}}>
-                                    <Text style={{fontSize: 20, fontWeight: '600'}}>{val.name}</Text>
-                                    <Text style={{width: 300}}>{val.description}</Text>
+                                    <Text style={map.markerTitle}>{val.name}</Text>
+                                    <Text style={map.markerDescription}>{val.description}</Text>
                                 </View>
                                 </Callout>
                             </Marker>)

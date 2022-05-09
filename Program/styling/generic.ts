@@ -72,6 +72,11 @@ export default StyleSheet.create({
     row: {
         flexDirection: "row"
     },
+    rowBetween:{
+        flexDirection: "row", 
+        justifyContent: "space-between"
+    },
+
     spaceBetween: {
         justifyContent: 'space-between', 
     },
@@ -99,5 +104,33 @@ export default StyleSheet.create({
         width: Dimensions.get("window").width/4*3,
         height: Dimensions.get("window").height/4*3,
         marginLeft: 50
+    },
+    menuItem: {
+        marginLeft: 15, 
+        paddingHorizontal: 3, 
+        paddingVertical: 2, 
+        borderRadius:5, 
+        overflow:'hidden', 
+        backgroundColor: "#FFFFFF"
+    },
+    button: {
+        width: 80, 
+        height: 35, 
+        borderRadius: 20, 
+        backgroundColor: "#0084ff", 
+        justifyContent: "center", 
+        alignItems: "center"
+    },
+    center: {
+        justifyContent: "center", 
+        alignItems: "center"
+    },
+    calendar: {
+        flexDirection:'row', 
+        alignItems: 'center', 
+        justifyContent:'center', 
+        borderRadius: 5, 
+        backgroundColor:'#FFFFFF', 
+        width: 100
     }
 })

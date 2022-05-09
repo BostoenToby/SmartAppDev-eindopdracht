@@ -3,6 +3,7 @@ import modal from "../styling/modal"
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { GenericButton } from "./GenericButton";
 import { AntDesign  } from '@expo/vector-icons';
+import generic from "../styling/generic";
 
 
 export default ({title, visible, date, onChange, buttonModalCallback, buttonCallback}: {title: string, visible: boolean, date: Date, onChange: Function, buttonModalCallback: Function, buttonCallback: Function}) => {
@@ -26,7 +27,7 @@ export default ({title, visible, date, onChange, buttonModalCallback, buttonCall
                     </View>
                 </View>
             </Modal>
-            <Pressable style={{flexDirection:'row', alignItems: 'center', justifyContent:'center', borderRadius: 5, backgroundColor:'#FFFFFF', width: 100}} onPress={() => buttonCallback()}>
+            <Pressable style={generic.calendar} onPress={() => buttonCallback()}>
                 <AntDesign name="calendar" size={24} color="black" />
                 <View style={{flexDirection: 'column', paddingLeft: 4}}>
                     <Text style={{ fontSize: 12 }}>{title}</Text>

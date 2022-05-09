@@ -23,7 +23,7 @@ export default ({visible, title, callbackInput1, label1, placeholder1, callbackI
                                 <InputFieldXS label={label4} placeholder={placeholder4} callback={callbackInput4} />
                             
                         </View>
-                        <View style={[generic.row, {justifyContent:'space-between'}]}>
+                        <View style={generic.rowBetween}>
                             <GenericButton text="Cancel" callback={callbackCancel}/>
                             <GenericButton text="Save" callback={callbackSave}/>
                         </View>
@@ -31,7 +31,7 @@ export default ({visible, title, callbackInput1, label1, placeholder1, callbackI
                 </View>
             </Modal>
             <Pressable onPress={() => callbackPressButton()}>
-                <Entypo style={{marginLeft: 15, paddingHorizontal: 3, paddingVertical: 2, borderRadius:5, overflow:'hidden', backgroundColor: "#FFFFFF"}} name="menu" size={24} color="gray" />
+                <Entypo style={generic.menuItem} name="menu" size={24} color="gray" />
             </Pressable>
         </>
     )
