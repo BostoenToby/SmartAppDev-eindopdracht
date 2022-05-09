@@ -6,6 +6,7 @@ import { useState } from "react";
 import modal from "../styling/modal";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation, ParamListBase } from '@react-navigation/native';
+import { GenericButton } from "./GenericButton";
 
 export default ({title}: {title: string}) => {
     const [modalVisible, setModalVisible] = useState<boolean>(false)
@@ -41,9 +42,7 @@ export default ({title}: {title: string}) => {
             >
             <TouchableOpacity style={modal.modalRightAbove} onPressOut={() => setModalVisible(false)}>
                 <View style={modal.modalBoxSmall}>
-                    <Pressable onPress={() => logOut()}>
-                        <Text style={{textDecorationLine: "underline"}}>Sign out</Text>
-                    </Pressable>
+                    <GenericButton text="Sign out" callback={() => logOut()} />
                 </View>
             </TouchableOpacity>
             </Modal>

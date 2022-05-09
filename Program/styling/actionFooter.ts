@@ -11,6 +11,5 @@ export default StyleSheet.create({
         paddingHorizontal:20, 
         borderTopWidth:1, 
         borderColor:"#D3D3D3"
-    },
-    footerItems: {}
+    }
 })

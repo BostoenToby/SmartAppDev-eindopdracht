@@ -1,4 +1,4 @@
-import { Dimensions, Image, Text, View } from "react-native";
+import { Image, Text, View } from "react-native";
 import Review from "../interfaces/Review";
 import reviewStyles from "../styling/reviewStyles";
 

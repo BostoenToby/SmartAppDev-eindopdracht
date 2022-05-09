@@ -1,4 +1,4 @@
-import { Dimensions, View } from "react-native"
+import { View } from "react-native"
 import actionFooter from "../styling/actionFooter"
 import {GenericButton} from "./GenericButton"
 

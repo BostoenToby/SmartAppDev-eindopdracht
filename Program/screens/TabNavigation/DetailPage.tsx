@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Image, Text, View, Dimensions, StyleSheet, FlatList, SafeAreaView, ScrollView, Button, Alert, Pressable } from "react-native";
+import { Image, Text, View, Dimensions, SafeAreaView, ScrollView } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import ReviewCard from "../../components/ReviewCard";
 import Hotel from "../../interfaces/Hotel";

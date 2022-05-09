@@ -1,4 +1,4 @@
-import { Text, View, Image, Button, Alert, TouchableOpacity, Pressable } from "react-native"
+import { Text, View, Image } from "react-native"
 import { useNavigation, ParamListBase } from '@react-navigation/native';
 import { StackNavigationProp } from "@react-navigation/stack"
 import {GenericButton} from "./GenericButton";

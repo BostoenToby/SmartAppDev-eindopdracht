@@ -10,7 +10,7 @@ export default interface Hotel {
     province: string,
     description: string,
     starRating: number,
-    image: string, //naar bucket gaan (azure storage)
+    image: string,
     longitude: number,
     latitude: number,
     pricePerNightMin: number,

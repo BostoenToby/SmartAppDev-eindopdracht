@@ -1,4 +1,4 @@
-import { Alert, SafeAreaView, Text, View } from "react-native"
+import { Alert, SafeAreaView, View } from "react-native"
 import LottieView from 'lottie-react-native';
 import generic from "../../styling/generic";
 import { GenericButton } from "../../components/GenericButton";
